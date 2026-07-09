@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Games Jumat Ceria DMR - Ship Race</title>
+  <title>Games Jumat Ceria DMR - Bos Jadi Wasit (Football Race)</title>
   <!-- Google Fonts: Outfit, Luckiest Guy, Lilita One -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,10 +29,10 @@
     /* Custom 3D Text & Shadow Styles */
     .title-stroke {
       text-shadow: 
-        -3px -3px 0 #1E3A8A,  
-         3px -3px 0 #1E3A8A,
-        -3px  3px 0 #1E3A8A,
-         3px  3px 0 #1E3A8A,
+        -3px -3px 0 #1b4332,  
+         3px -3px 0 #1b4332,
+        -3px  3px 0 #1b4332,
+         3px  3px 0 #1b4332,
         -4px  4px 8px rgba(0, 0, 0, 0.4);
     }
     
@@ -40,23 +40,30 @@
       filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.3));
     }
 
-    /* Floating ship animation */
-    @keyframes float-ship-a {
+    /* Grass pitch repeating stripes pattern */
+    .pitch-lawn {
+      background-color: #1b4332;
+      background-image: repeating-linear-gradient(90deg, #1b4332 0px, #1b4332 60px, #2d6a4f 60px, #2d6a4f 120px);
+    }
+
+    /* Floating & rotating soccer ball animation */
+    @keyframes float-ball {
       0% { transform: translate(-50%, -50%) translateY(0px) rotate(0deg); }
-      50% { transform: translate(-50%, -50%) translateY(-5px) rotate(1deg); }
-      100% { transform: translate(-50%, -50%) translateY(0px) rotate(0deg); }
+      50% { transform: translate(-50%, -50%) translateY(-6px) rotate(180deg); }
+      100% { transform: translate(-50%, -50%) translateY(0px) rotate(360deg); }
     }
-    @keyframes float-ship-b {
-      0% { transform: translate(-50%, -50%) translateY(-2px) rotate(0.5deg); }
-      50% { transform: translate(-50%, -50%) translateY(3px) rotate(-0.5deg); }
-      100% { transform: translate(-50%, -50%) translateY(-2px) rotate(0.5deg); }
+    .animate-float-ball {
+      animation: float-ball 3.5s ease-in-out infinite;
     }
-    
-    .animate-float-a {
-      animation: float-ship-a 3.5s ease-in-out infinite;
+
+    /* Kick action scaling & translating animation */
+    @keyframes kick-action {
+      0% { transform: translateY(-50%) scale(1); }
+      40% { transform: translateY(-50%) translateX(12px) scale(1.15) rotate(10deg); }
+      100% { transform: translateY(-50%) scale(1); }
     }
-    .animate-float-b {
-      animation: float-ship-b 4s ease-in-out infinite;
+    .animate-kick {
+      animation: kick-action 0.22s ease-out;
     }
 
     @keyframes float-trophy {
@@ -65,18 +72,6 @@
     }
     .animate-float-trophy {
       animation: float-trophy 3s ease-in-out infinite;
-    }
-
-    /* Ocean wave scrolling animation */
-    @keyframes wave-scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .animate-wave-slow {
-      animation: wave-scroll 20s linear infinite;
-    }
-    .animate-wave-fast {
-      animation: wave-scroll 12s linear infinite;
     }
 
     /* Confetti animation */
@@ -108,50 +103,102 @@
     }
 
     /* Glow effects */
-    .glow-red {
-      box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+    .glow-rose {
+      box-shadow: 0 0 20px rgba(244, 63, 94, 0.45);
     }
-    .glow-teal {
-      box-shadow: 0 0 20px rgba(20, 184, 166, 0.4);
+    .glow-cyan {
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.45);
+    }
+    .glow-amber {
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.45);
     }
     .glow-gold {
       box-shadow: 0 0 25px rgba(245, 158, 11, 0.6);
     }
   </style>
 </head>
-<body class="bg-gradient-to-b from-sky-400 via-sky-300 to-blue-500 h-screen max-h-screen text-white font-sans overflow-hidden flex flex-col justify-between select-none relative">
+<body class="bg-gradient-to-b from-slate-950 via-emerald-950 to-slate-950 h-screen max-h-screen text-white font-sans overflow-hidden flex flex-col justify-between select-none relative">
 
-  <!-- Dynamic Clouds in the Background -->
+  <!-- Stadium Light Beams in the Background -->
   <div class="absolute inset-0 pointer-events-none opacity-20 overflow-hidden z-0">
-    <div class="absolute top-10 left-10 w-48 h-12 bg-white rounded-full filter blur-xl animate-[pulse_6s_infinite]"></div>
-    <div class="absolute top-32 right-20 w-64 h-16 bg-white rounded-full filter blur-xl animate-[pulse_8s_infinite]"></div>
-    <div class="absolute top-1/3 left-1/4 w-80 h-20 bg-white rounded-full filter blur-xl animate-[pulse_10s_infinite]"></div>
+    <div class="absolute -top-40 left-1/4 w-96 h-96 bg-emerald-400/25 rounded-full filter blur-[120px] animate-[pulse_6s_infinite]"></div>
+    <div class="absolute -top-40 right-1/4 w-96 h-96 bg-emerald-500/20 rounded-full filter blur-[120px] animate-[pulse_8s_infinite]"></div>
   </div>
 
   <!-- COMBINED HEADER & SCOREBOARDS DRAWER -->
-  <header class="relative z-10 w-full px-4 pt-4 pb-2 max-w-[90%] mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-stretch">
+  <header class="relative z-10 w-full px-4 pt-4 pb-2 max-w-[95%] mx-auto flex flex-col space-y-4">
+    
+    <!-- Top Row: Logo & Referee Branding & Global Controls -->
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-950/45 p-4 rounded-[2rem] border border-white/5 backdrop-blur-sm shadow-xl">
+      <!-- Title Logo -->
+      <div class="flex items-center space-x-3">
+        <img src="dmr_title.png" alt="Games Jumat Ceria DMR" class="h-10 md:h-12 w-auto object-contain hover:scale-[1.02] transition-transform duration-300">
+      </div>
       
-      <!-- Left Column: Kapal A Score Panel -->
-      <div class="glass-card-dark rounded-3xl p-4 border-l-4 border-rose-500 shadow-xl flex flex-col justify-between h-full relative overflow-hidden group col-span-1 md:col-span-1 w-full order-2 md:order-1">
+      <!-- Referee Status Branding -->
+      <div class="flex items-center space-x-3 bg-slate-900/60 border border-white/10 px-4 py-2 rounded-2xl">
+        <div class="flex space-x-1">
+          <div class="w-3.5 h-5 bg-amber-400 rounded-sm shadow-md rotate-[-8deg] transform hover:scale-110 transition-transform" title="Kartu Kuning"></div>
+          <div class="w-3.5 h-5 bg-rose-500 rounded-sm shadow-md rotate-[8deg] transform hover:scale-110 transition-transform" title="Kartu Merah"></div>
+        </div>
+        <svg viewBox="0 0 32 32" class="w-7 h-7 text-yellow-300 drop-shadow animate-[pulse_2.5s_infinite]">
+          <path d="M 8 12 L 20 12 C 24 12 28 15 28 19 C 28 23 24 26 20 26 L 14 26 L 14 22 L 20 22 C 22 22 24 21 24 19 C 24 17 22 16 20 16 L 8 16 Z" fill="currentColor" stroke="#1e293b" stroke-width="2"/>
+          <circle cx="6" cy="14" r="4" fill="none" stroke="currentColor" stroke-width="2.5" />
+          <path d="M 22 12 L 22 8 L 26 8 L 26 12 Z" fill="currentColor" stroke="#1e293b" stroke-width="2"/>
+          <rect x="12" y="10" width="4" height="4" fill="#1e293b" />
+        </svg>
+        <div class="flex flex-col text-left font-playful">
+          <span class="text-[9px] tracking-widest text-rose-300 uppercase">Bos Jadi Wasit</span>
+          <span class="text-xs font-bold text-white font-sans uppercase">KAMI SIAP OFFSIDE!</span>
+        </div>
+      </div>
+
+      <!-- Global Controls -->
+      <div class="flex items-center justify-center space-x-2.5 font-playful text-[10px] md:text-xs">
+        <span class="bg-emerald-950/40 border border-emerald-500/20 px-3 py-2 rounded-full text-emerald-200">
+          Lintasan: <span id="currentStepsDisplay" class="text-yellow-300 font-mono font-bold">10</span> Langkah
+        </span>
+        <span class="bg-slate-800/80 px-2.5 py-2 rounded-full text-yellow-300 font-beachy">MATCH DAY</span>
+        <!-- Reset Lintasan -->
+        <button id="btnResetTrack" class="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-4 py-2 rounded-full flex items-center space-x-1.5 transition-all active:scale-95 shadow-md shadow-amber-950/30" title="Mulai ulang lintasan ini">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+          </svg>
+          <span>RESET LINTASAN</span>
+        </button>
+        <!-- Settings Button -->
+        <button id="btnOpenSettings" class="bg-slate-800/80 hover:bg-slate-700 text-white font-bold p-2.5 rounded-full border border-white/10 transition-all active:scale-95" title="Buka Pengaturan">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.43l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.28z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3 Scoreboards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
+      
+      <!-- Team A Score Panel -->
+      <div class="glass-card-dark rounded-3xl p-4 border-l-4 border-rose-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
         <!-- Accent color corner glow -->
         <div class="absolute -top-10 -left-10 w-24 h-24 bg-rose-500/20 rounded-full filter blur-xl"></div>
         
         <!-- Team Name (Top) -->
         <div class="text-center z-10 relative">
           <div class="flex items-center justify-center space-x-1.5">
-            <span id="shipAName" class="text-lg md:text-xl font-playful uppercase tracking-wider text-rose-200 outline-none border-b border-transparent focus:border-rose-400 focus:bg-rose-950/40 px-2 py-0.5 rounded cursor-pointer" contenteditable="true" title="Klik untuk mengubah nama">
-              KAPAL A (PESIAR)
+            <span id="teamAName" class="text-lg md:text-xl font-playful uppercase tracking-wider text-rose-200 outline-none border-b border-transparent focus:border-rose-400 focus:bg-rose-950/40 px-2 py-0.5 rounded cursor-pointer font-extrabold" contenteditable="true" title="Klik untuk mengubah nama">
+              MERAH
             </span>
             <svg class="w-3.5 h-3.5 text-rose-400 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>
             </svg>
           </div>
-          <div class="text-[10px] text-rose-400 font-playful tracking-widest uppercase">Cruising Line</div>
+          <div class="text-[10px] text-rose-400 font-playful tracking-widest uppercase">Striker Merah</div>
         </div>
         
         <!-- Score Display (Middle) -->
-        <div id="shipAScore" class="text-6xl md:text-7xl font-beachy text-rose-500 text-center my-3 select-none drop-shadow-[0_4px_12px_rgba(244,63,94,0.6)] z-10 relative">
+        <div id="teamAScore" class="text-5xl md:text-6xl font-beachy text-rose-500 text-center my-2 select-none drop-shadow-[0_4px_12px_rgba(244,63,94,0.6)] z-10 relative">
           0
         </div>
         
@@ -161,68 +208,75 @@
             MUNDUR
           </button>
           <button id="btnStepIncA" class="bg-rose-600 hover:bg-rose-500 text-white font-extrabold py-2 rounded-xl shadow-md shadow-rose-900/30 transition-all active:scale-95 animate-pulse" title="Maju 1 Langkah">
-            MAJU [A]
+            TENDANG [A]
           </button>
         </div>
       </div>
 
-      <!-- Center Columns: Title Image & Global Controls -->
-      <div class="col-span-1 md:col-span-3 flex flex-col justify-between items-center py-2 h-full w-full order-1 md:order-2">
-        <img src="dmr_title.png" alt="Games Jumat Ceria DMR by Tua Muda Kolaborasi" class="w-full h-auto max-h-36 md:max-h-40 lg:max-h-48 object-contain rounded-3xl shadow-2xl border border-white/10 hover:scale-[1.02] transition-transform duration-300 select-none pointer-events-none">
-        
-        <div class="flex items-center justify-center space-x-2.5 font-playful text-[10px] md:text-xs mt-3">
-          <!-- Steps Indicator -->
-          <span class="bg-blue-900/40 border border-white/10 px-2.5 py-1.5 rounded-full text-blue-200">
-            Lintasan: <span id="currentStepsDisplay" class="text-yellow-300 font-mono font-bold">10</span> Langkah
-          </span>
-          <span class="bg-slate-800/80 px-2.5 py-1.5 rounded-full text-yellow-300 font-beachy">VS</span>
-          <!-- Reset Lintasan -->
-          <button id="btnResetTrack" class="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-4 py-1.5 rounded-full flex items-center space-x-1.5 transition-all active:scale-95 shadow-md shadow-amber-950/30" title="Mulai ulang lintasan ini">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
-            </svg>
-            <span>RESET LINTASAN</span>
-          </button>
-          <!-- Settings Button -->
-          <button id="btnOpenSettings" class="bg-slate-800/80 hover:bg-slate-700 text-white font-bold p-2 rounded-full border border-white/10 transition-all active:scale-95" title="Buka Pengaturan">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.43l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.28z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Right Column: Kapal B Score Panel -->
-      <div class="glass-card-dark rounded-3xl p-4 border-r-4 border-teal-500 shadow-xl flex flex-col justify-between h-full relative overflow-hidden group col-span-1 md:col-span-1 w-full order-3 md:order-3">
+      <!-- Team B Score Panel -->
+      <div class="glass-card-dark rounded-3xl p-4 border-l-4 border-cyan-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
         <!-- Accent color corner glow -->
-        <div class="absolute -top-10 -right-10 w-24 h-24 bg-teal-500/20 rounded-full filter blur-xl"></div>
+        <div class="absolute -top-10 -left-10 w-24 h-24 bg-cyan-500/20 rounded-full filter blur-xl"></div>
         
         <!-- Team Name (Top) -->
         <div class="text-center z-10 relative">
           <div class="flex items-center justify-center space-x-1.5">
-            <span id="shipBName" class="text-lg md:text-xl font-playful uppercase tracking-wider text-teal-200 outline-none border-b border-transparent focus:border-teal-400 focus:bg-teal-950/40 px-2 py-0.5 rounded cursor-pointer" contenteditable="true" title="Klik untuk mengubah nama">
-              KAPAL B (PINISI)
+            <span id="teamBName" class="text-lg md:text-xl font-playful uppercase tracking-wider text-cyan-200 outline-none border-b border-transparent focus:border-cyan-400 focus:bg-cyan-950/40 px-2 py-0.5 rounded cursor-pointer font-extrabold" contenteditable="true" title="Klik untuk mengubah nama">
+              BIRU
             </span>
-            <svg class="w-3.5 h-3.5 text-teal-400 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <svg class="w-3.5 h-3.5 text-cyan-400 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>
             </svg>
           </div>
-          <div class="text-[10px] text-teal-400 font-playful tracking-widest uppercase">Traditional Pinisi</div>
+          <div class="text-[10px] text-cyan-400 font-playful tracking-widest uppercase">Gelandang Biru</div>
         </div>
 
         <!-- Score Display (Middle) -->
-        <div id="shipBScore" class="text-6xl md:text-7xl font-beachy text-teal-500 text-center my-3 select-none drop-shadow-[0_4px_12px_rgba(20,184,166,0.6)] z-10 relative">
+        <div id="teamBScore" class="text-5xl md:text-6xl font-beachy text-cyan-500 text-center my-2 select-none drop-shadow-[0_4px_12px_rgba(6,182,212,0.6)] z-10 relative">
           0
         </div>
 
         <!-- Step buttons (Bottom) -->
         <div class="grid grid-cols-2 gap-2 font-playful text-[10px] z-10 relative">
-          <button id="btnStepIncB" class="bg-teal-600 hover:bg-teal-500 text-white font-extrabold py-2 rounded-xl shadow-md shadow-teal-900/30 transition-all active:scale-95" title="Maju 1 Langkah">
-            MAJU [<span id="btnHotkeyCharB">L</span>]
-          </button>
-          <button id="btnStepDecB" class="bg-slate-800 hover:bg-slate-700 text-teal-300 py-2 rounded-xl border border-teal-500/20 transition-all active:scale-95" title="Mundur 1 Langkah">
+          <button id="btnStepDecB" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 py-2 rounded-xl border border-cyan-500/20 transition-all active:scale-95" title="Mundur 1 Langkah">
             MUNDUR
+          </button>
+          <button id="btnStepIncB" class="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold py-2 rounded-xl shadow-md shadow-cyan-900/30 transition-all active:scale-95 animate-pulse" title="Maju 1 Langkah">
+            TENDANG [<span id="btnHotkeyCharB">S</span>]
+          </button>
+        </div>
+      </div>
+
+      <!-- Team C Score Panel -->
+      <div class="glass-card-dark rounded-3xl p-4 border-l-4 border-amber-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
+        <!-- Accent color corner glow -->
+        <div class="absolute -top-10 -left-10 w-24 h-24 bg-amber-500/20 rounded-full filter blur-xl"></div>
+        
+        <!-- Team Name (Top) -->
+        <div class="text-center z-10 relative">
+          <div class="flex items-center justify-center space-x-1.5">
+            <span id="teamCName" class="text-lg md:text-xl font-playful uppercase tracking-wider text-amber-200 outline-none border-b border-transparent focus:border-amber-400 focus:bg-amber-950/40 px-2 py-0.5 rounded cursor-pointer font-extrabold" contenteditable="true" title="Klik untuk mengubah nama">
+              KUNING
+            </span>
+            <svg class="w-3.5 h-3.5 text-amber-400 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>
+            </svg>
+          </div>
+          <div class="text-[10px] text-amber-400 font-playful tracking-widest uppercase">Penyerang Kuning</div>
+        </div>
+
+        <!-- Score Display (Middle) -->
+        <div id="teamCScore" class="text-5xl md:text-6xl font-beachy text-amber-500 text-center my-2 select-none drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] z-10 relative">
+          0
+        </div>
+
+        <!-- Step buttons (Bottom) -->
+        <div class="grid grid-cols-2 gap-2 font-playful text-[10px] z-10 relative">
+          <button id="btnStepDecC" class="bg-slate-800 hover:bg-slate-700 text-amber-300 py-2 rounded-xl border border-amber-500/20 transition-all active:scale-95" title="Mundur 1 Langkah">
+            MUNDUR
+          </button>
+          <button id="btnStepIncC" class="bg-amber-600 hover:bg-amber-500 text-white font-extrabold py-2 rounded-xl shadow-md shadow-amber-900/30 transition-all active:scale-95 animate-pulse" title="Maju 1 Langkah">
+            TENDANG [<span id="btnHotkeyCharC">D</span>]
           </button>
         </div>
       </div>
@@ -231,89 +285,190 @@
   </header>
 
   <!-- MAIN DASHBOARD CONTENT (FIT SCREEN) -->
-  <main class="w-full max-w-[90%] mx-auto px-4 z-10 flex-grow flex flex-col justify-center py-2">
+  <main class="w-full max-w-[95%] mx-auto px-4 z-10 flex-grow flex flex-col justify-center py-2">
 
     <!-- RACE COURSE TRACKS -->
     <section class="glass-card-dark rounded-3xl p-4 md:p-5 shadow-xl relative border border-white/10 overflow-visible w-full">
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-blue-900/40 via-transparent to-transparent pointer-events-none z-0 rounded-3xl"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-emerald-900/30 via-transparent to-transparent pointer-events-none z-0 rounded-3xl"></div>
 
-      <div class="space-y-8 relative z-10 py-2">
+      <div class="space-y-6 relative z-10 py-1">
         
-        <!-- LANE 1: Cruise Ship (Red Team) -->
+        <!-- LANE 1: Team A (Red) -->
         <div class="relative flex flex-col space-y-1.5">
           <!-- Lane Metadata Header -->
           <div class="flex justify-between items-center px-2">
             <span class="text-xs font-bold text-rose-300 tracking-wider flex items-center space-x-2">
               <span class="w-2 h-2 bg-rose-500 rounded-full inline-block animate-ping"></span>
-              <span id="laneLabelA" class="font-playful uppercase">LINTASAN A: KAPAL PESIAR</span>
+              <span id="laneLabelA" class="font-playful uppercase">LINTASAN A: MERAH</span>
             </span>
             <span id="laneProgressA" class="font-mono text-[10px] text-rose-200 bg-rose-950/40 px-2 py-0.5 rounded border border-rose-500/20 font-bold">
               0 / 10 Langkah
             </span>
           </div>
 
-          <!-- The actual track field -->
-          <div class="relative h-24 bg-gradient-to-r from-blue-950/80 via-blue-900/40 to-blue-950/80 rounded-2xl border border-white/5 flex items-center px-8 overflow-visible">
-            <!-- Animated ocean waves under the ship path -->
-            <div class="absolute inset-x-0 bottom-0 h-10 pointer-events-none z-0 overflow-hidden rounded-b-2xl">
-              <div class="absolute inset-0 w-[200%] h-full text-blue-600/80 fill-current animate-wave-slow">
-                <svg class="w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                  <path d="M0,60 C150,100 350,20 500,60 C650,100 850,20 1000,60 C1150,100 1350,20 1500,60 L1500,120 L0,120 Z"></path>
-                </svg>
-              </div>
-              <div class="absolute inset-0 w-[200%] h-full text-cyan-400 fill-current animate-wave-fast opacity-90">
-                <svg class="w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                  <path d="M0,50 C150,20 300,80 500,50 C700,20 850,80 1000,50 C1150,20 1300,80 1500,50 L1500,120 L0,120 Z"></path>
-                </svg>
-              </div>
+          <!-- Football Pitch Track Field -->
+          <div class="relative h-20 bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 rounded-2xl border border-emerald-500/20 flex items-center px-16 overflow-visible pitch-lawn">
+            <!-- White lines pitch markings -->
+            <div class="absolute inset-0 border-y border-white/10 pointer-events-none z-0 rounded-2xl"></div>
+            <div class="absolute left-16 right-20 h-0.5 border-t border-dashed border-white/20 z-0"></div>
+            
+            <!-- Kicking player silhouette on the left -->
+            <div id="playerA" class="absolute left-2 top-1/2 -translate-y-1/2 text-rose-400 z-20 transition-all duration-200">
+              <svg viewBox="0 0 80 80" class="w-12 h-12 md:w-14 md:h-14 drop-shadow-md">
+                <circle cx="35" cy="18" r="6" fill="currentColor" />
+                <path d="M 33 24 L 25 42 L 34 45 L 40 33 Z" fill="currentColor" />
+                <path d="M 34 45 L 52 49 L 63 42" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M 28 42 L 22 58 L 15 60" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M 27 27 Q 14 30 17 40" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                <path d="M 38 27 Q 50 25 55 35" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+              </svg>
             </div>
-            <div class="absolute left-8 right-8 h-1.5 bg-slate-800 rounded-full z-10 border-t border-white/5"></div>
-            <div id="trackFillA" class="absolute left-8 h-1.5 bg-gradient-to-r from-rose-500 to-amber-500 rounded-full z-10 transition-all duration-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]" style="width: 0%;"></div>
+
+            <div class="absolute left-16 right-20 h-1 bg-emerald-950 rounded-full z-10 border-t border-white/5"></div>
+            <div id="trackFillA" class="absolute left-16 h-1 bg-gradient-to-r from-rose-500 to-amber-500 rounded-full z-10 transition-all duration-500 shadow-[0_0_8px_rgba(244,63,94,0.6)]" style="width: 0%;"></div>
 
             <!-- Steps Node markers wrapper -->
-            <div id="nodesContainerA" class="absolute inset-x-8 top-0 bottom-0 flex justify-between items-center z-20"></div>
+            <div id="nodesContainerA" class="absolute inset-x-16 top-0 bottom-0 flex justify-between items-center z-20"></div>
 
-            <!-- Cruise Ship A element -->
-            <div id="shipA" class="absolute top-1/2 left-8 z-30 transition-all duration-500 ease-out -translate-y-1/2 -translate-x-1/2 animate-float-a"></div>
+            <!-- Soccer Ball token -->
+            <div id="ballA" class="absolute top-1/2 z-30 transition-all duration-500 ease-out -translate-y-1/2 -translate-x-1/2 animate-float-ball" style="left: calc(64px + 0% * (100% - 64px - 80px) / 100);"></div>
+
+            <!-- Goal Net on the right -->
+            <div class="absolute right-1 top-1/2 -translate-y-1/2 z-20 text-white">
+              <svg viewBox="0 0 120 80" class="w-16 h-12 md:w-20 md:h-14 drop-shadow-md">
+                <defs>
+                  <pattern id="net-grid-pattern" width="6" height="6" patternUnits="userSpaceOnUse">
+                    <rect width="6" height="6" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.6" />
+                  </pattern>
+                </defs>
+                <rect x="10" y="10" width="100" height="60" fill="rgba(15, 23, 42, 0.45)" rx="2" />
+                <rect x="18" y="18" width="84" height="52" fill="url(#net-grid-pattern)" stroke="rgba(255,255,255,0.1)" />
+                <line x1="10" y1="10" x2="18" y2="18" stroke="#ffffff" stroke-width="1.8" />
+                <line x1="110" y1="10" x2="102" y2="18" stroke="#ffffff" stroke-width="1.8" />
+                <line x1="10" y1="70" x2="18" y2="70" stroke="#ffffff" stroke-width="1.8" />
+                <line x1="110" y1="70" x2="102" y2="70" stroke="#ffffff" stroke-width="1.8" />
+                <polygon points="10,10 18,18 18,70 10,70" fill="url(#net-grid-pattern)" />
+                <polygon points="110,10 102,18 102,70 110,70" fill="url(#net-grid-pattern)" />
+                <path d="M 10 70 L 10 10 L 110 10 L 110 70" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" />
+                <path d="M 10 70 Q 60 71 110 70" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+              </svg>
+            </div>
           </div>
         </div>
 
-        <!-- LANE 2: Sailing Ship / Pinisi (Teal Team) -->
+        <!-- LANE 2: Team B (Blue) -->
         <div class="relative flex flex-col space-y-1.5">
           <!-- Lane Metadata Header -->
           <div class="flex justify-between items-center px-2">
-            <span class="text-xs font-bold text-teal-300 tracking-wider flex items-center space-x-2">
-              <span class="w-2 h-2 bg-teal-500 rounded-full inline-block animate-ping"></span>
-              <span id="laneLabelB" class="font-playful uppercase">LINTASAN B: KAPAL PINISI</span>
+            <span class="text-xs font-bold text-cyan-300 tracking-wider flex items-center space-x-2">
+              <span class="w-2 h-2 bg-cyan-500 rounded-full inline-block animate-ping"></span>
+              <span id="laneLabelB" class="font-playful uppercase">LINTASAN B: BIRU</span>
             </span>
-            <span id="laneProgressB" class="font-mono text-[10px] text-teal-200 bg-teal-950/40 px-2 py-0.5 rounded border border-teal-500/20 font-bold">
+            <span id="laneProgressB" class="font-mono text-[10px] text-cyan-200 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/20 font-bold">
               0 / 10 Langkah
             </span>
           </div>
 
-          <!-- The actual track field -->
-          <div class="relative h-24 bg-gradient-to-r from-blue-950/80 via-blue-900/40 to-blue-950/80 rounded-2xl border border-white/5 flex items-center px-8 overflow-visible">
-            <!-- Animated ocean waves under the ship path -->
-            <div class="absolute inset-x-0 bottom-0 h-10 pointer-events-none z-0 overflow-hidden rounded-b-2xl">
-              <div class="absolute inset-0 w-[200%] h-full text-blue-600/80 fill-current animate-wave-slow">
-                <svg class="w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                  <path d="M0,60 C150,100 350,20 500,60 C650,100 850,20 1000,60 C1150,100 1350,20 1500,60 L1500,120 L0,120 Z"></path>
-                </svg>
-              </div>
-              <div class="absolute inset-0 w-[200%] h-full text-cyan-400 fill-current animate-wave-fast opacity-90">
-                <svg class="w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                  <path d="M0,50 C150,20 300,80 500,50 C700,20 850,80 1000,50 C1150,20 1300,80 1500,50 L1500,120 L0,120 Z"></path>
-                </svg>
-              </div>
+          <!-- Football Pitch Track Field -->
+          <div class="relative h-20 bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 rounded-2xl border border-emerald-500/20 flex items-center px-16 overflow-visible pitch-lawn">
+            <!-- White lines pitch markings -->
+            <div class="absolute inset-0 border-y border-white/10 pointer-events-none z-0 rounded-2xl"></div>
+            <div class="absolute left-16 right-20 h-0.5 border-t border-dashed border-white/20 z-0"></div>
+            
+            <!-- Kicking player silhouette on the left -->
+            <div id="playerB" class="absolute left-2 top-1/2 -translate-y-1/2 text-cyan-400 z-20 transition-all duration-200">
+              <svg viewBox="0 0 80 80" class="w-12 h-12 md:w-14 md:h-14 drop-shadow-md">
+                <circle cx="35" cy="18" r="6" fill="currentColor" />
+                <path d="M 33 24 L 25 42 L 34 45 L 40 33 Z" fill="currentColor" />
+                <path d="M 34 45 L 52 49 L 63 42" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M 28 42 L 22 58 L 15 60" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M 27 27 Q 14 30 17 40" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                <path d="M 38 27 Q 50 25 55 35" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+              </svg>
             </div>
-            <div class="absolute left-8 right-8 h-1.5 bg-slate-800 rounded-full z-10 border-t border-white/5"></div>
-            <div id="trackFillB" class="absolute left-8 h-1.5 bg-gradient-to-r from-teal-500 to-emerald-500 rounded-full z-10 transition-all duration-500 shadow-[0_0_8px_rgba(20,184,166,0.6)]" style="width: 0%;"></div>
+
+            <div class="absolute left-16 right-20 h-1 bg-emerald-950 rounded-full z-10 border-t border-white/5"></div>
+            <div id="trackFillB" class="absolute left-16 h-1 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full z-10 transition-all duration-500 shadow-[0_0_8px_rgba(6,182,212,0.6)]" style="width: 0%;"></div>
 
             <!-- Steps Node markers wrapper -->
-            <div id="nodesContainerB" class="absolute inset-x-8 top-0 bottom-0 flex justify-between items-center z-20"></div>
+            <div id="nodesContainerB" class="absolute inset-x-16 top-0 bottom-0 flex justify-between items-center z-20"></div>
 
-            <!-- Pinisi Ship B element -->
-            <div id="shipB" class="absolute top-1/2 left-8 z-30 transition-all duration-500 ease-out -translate-y-1/2 -translate-x-1/2 animate-float-b"></div>
+            <!-- Soccer Ball token -->
+            <div id="ballB" class="absolute top-1/2 z-30 transition-all duration-500 ease-out -translate-y-1/2 -translate-x-1/2 animate-float-ball" style="left: calc(64px + 0% * (100% - 64px - 80px) / 100);"></div>
+
+            <!-- Goal Net on the right -->
+            <div class="absolute right-1 top-1/2 -translate-y-1/2 z-20 text-white">
+              <svg viewBox="0 0 120 80" class="w-16 h-12 md:w-20 md:h-14 drop-shadow-md">
+                <rect x="10" y="10" width="100" height="60" fill="rgba(15, 23, 42, 0.45)" rx="2" />
+                <rect x="18" y="18" width="84" height="52" fill="url(#net-grid-pattern)" stroke="rgba(255,255,255,0.1)" />
+                <line x1="10" y1="10" x2="18" y2="18" stroke="#ffffff" stroke-width="1.8" />
+                <line x1="110" y1="10" x2="102" y2="18" stroke="#ffffff" stroke-width="1.8" />
+                <line x1="10" y1="70" x2="18" y2="70" stroke="#ffffff" stroke-width="1.8" />
+                <line x1="110" y1="70" x2="102" y2="70" stroke="#ffffff" stroke-width="1.8" />
+                <polygon points="10,10 18,18 18,70 10,70" fill="url(#net-grid-pattern)" />
+                <polygon points="110,10 102,18 102,70 110,70" fill="url(#net-grid-pattern)" />
+                <path d="M 10 70 L 10 10 L 110 10 L 110 70" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" />
+                <path d="M 10 70 Q 60 71 110 70" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- LANE 3: Team C (Yellow) -->
+        <div class="relative flex flex-col space-y-1.5">
+          <!-- Lane Metadata Header -->
+          <div class="flex justify-between items-center px-2">
+            <span class="text-xs font-bold text-amber-300 tracking-wider flex items-center space-x-2">
+              <span class="w-2 h-2 bg-amber-500 rounded-full inline-block animate-ping"></span>
+              <span id="laneLabelC" class="font-playful uppercase">LINTASAN C: KUNING</span>
+            </span>
+            <span id="laneProgressC" class="font-mono text-[10px] text-amber-200 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-500/20 font-bold">
+              0 / 10 Langkah
+            </span>
+          </div>
+
+          <!-- Football Pitch Track Field -->
+          <div class="relative h-20 bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 rounded-2xl border border-emerald-500/20 flex items-center px-16 overflow-visible pitch-lawn">
+            <!-- White lines pitch markings -->
+            <div class="absolute inset-0 border-y border-white/10 pointer-events-none z-0 rounded-2xl"></div>
+            <div class="absolute left-16 right-20 h-0.5 border-t border-dashed border-white/20 z-0"></div>
+            
+            <!-- Kicking player silhouette on the left -->
+            <div id="playerC" class="absolute left-2 top-1/2 -translate-y-1/2 text-amber-400 z-20 transition-all duration-200">
+              <svg viewBox="0 0 80 80" class="w-12 h-12 md:w-14 md:h-14 drop-shadow-md">
+                <circle cx="35" cy="18" r="6" fill="currentColor" />
+                <path d="M 33 24 L 25 42 L 34 45 L 40 33 Z" fill="currentColor" />
+                <path d="M 34 45 L 52 49 L 63 42" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M 28 42 L 22 58 L 15 60" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M 27 27 Q 14 30 17 40" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+                <path d="M 38 27 Q 50 25 55 35" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+              </svg>
+            </div>
+
+            <div class="absolute left-16 right-20 h-1 bg-emerald-950 rounded-full z-10 border-t border-white/5"></div>
+            <div id="trackFillC" class="absolute left-16 h-1 bg-gradient-to-r from-amber-500 to-yellow-400 rounded-full z-10 transition-all duration-500 shadow-[0_0_8px_rgba(245,158,11,0.6)]" style="width: 0%;"></div>
+
+            <!-- Steps Node markers wrapper -->
+            <div id="nodesContainerC" class="absolute inset-x-16 top-0 bottom-0 flex justify-between items-center z-20"></div>
+
+            <!-- Soccer Ball token -->
+            <div id="ballC" class="absolute top-1/2 z-30 transition-all duration-500 ease-out -translate-y-1/2 -translate-x-1/2 animate-float-ball" style="left: calc(64px + 0% * (100% - 64px - 80px) / 100);"></div>
+
+            <!-- Goal Net on the right -->
+            <div class="absolute right-1 top-1/2 -translate-y-1/2 z-20 text-white">
+              <svg viewBox="0 0 120 80" class="w-16 h-12 md:w-20 md:h-14 drop-shadow-md">
+                <rect x="10" y="10" width="100" height="60" fill="rgba(15, 23, 42, 0.45)" rx="2" />
+                <rect x="18" y="18" width="84" height="52" fill="url(#net-grid-pattern)" stroke="rgba(255,255,255,0.1)" />
+                <line x1="10" y1="10" x2="18" y2="18" stroke="#ffffff" stroke-width="1.8" />
+                <line x1="110" y1="10" x2="102" y2="18" stroke="#ffffff" stroke-width="1.8" />
+                <line x1="10" y1="70" x2="18" y2="70" stroke="#ffffff" stroke-width="1.8" />
+                <line x1="110" y1="70" x2="102" y2="70" stroke="#ffffff" stroke-width="1.8" />
+                <polygon points="10,10 18,18 18,70 10,70" fill="url(#net-grid-pattern)" />
+                <polygon points="110,10 102,18 102,70 110,70" fill="url(#net-grid-pattern)" />
+                <path d="M 10 70 L 10 10 L 110 10 L 110 70" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" />
+                <path d="M 10 70 Q 60 71 110 70" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+              </svg>
+            </div>
           </div>
         </div>
 
@@ -321,44 +476,32 @@
     </section>
   </main>
 
-  <!-- ANIMATED OCEAN WAVE WATER BOTTOM FOOTER (COMPACT) -->
-  <footer class="relative w-full h-16 overflow-hidden z-10 pointer-events-none select-none">
-    <!-- Back Wave Layer -->
-    <div class="absolute bottom-0 left-0 w-[200%] h-12 bg-blue-700/60 animate-wave-slow pointer-events-none opacity-80">
-      <svg class="w-full h-8 fill-current text-blue-700/50" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0,60 C150,100 350,20 500,60 C650,100 850,20 1000,60 C1150,100 1350,20 1500,60 C1650,100 1850,20 2000,60 L2000,120 L0,120 Z"></path>
-      </svg>
-    </div>
-    <!-- Front Wave Layer -->
-    <div class="absolute bottom-0 left-0 w-[200%] h-8 bg-blue-600 animate-wave-fast pointer-events-none">
-      <svg class="w-full h-8 fill-current text-blue-600" viewBox="0 0 1200 120" preserveAspectRatio="none">
-        <path d="M0,50 C150,20 300,80 500,50 C700,20 850,80 1000,50 C1150,20 1300,80 1500,50 C1700,20 1850,80 2000,50 L2000,120 L0,120 Z"></path>
-      </svg>
-    </div>
-    
+  <!-- ANIMATED STADIUM TURF GRID FOOTER -->
+  <footer class="relative w-full h-10 overflow-hidden z-10 pointer-events-none select-none flex items-center justify-center">
+    <div class="absolute inset-0 bg-emerald-950/60 border-t border-emerald-500/10"></div>
     <!-- Footer Copyright Text -->
-    <div class="absolute inset-x-0 bottom-2 text-center text-xs text-blue-200/70 font-bold tracking-widest z-20">
-      DMR 2026
+    <div class="relative text-center text-[10px] text-emerald-300/60 font-bold tracking-widest z-20 font-playful">
+      DMR 2026 • Hitam Putih Berkreasi
     </div>
   </footer>
 
   <!-- ============================================== -->
   <!-- MODAL: SETTINGS & DYNAMIC STEPS CONFIG DRAWER -->
   <!-- ============================================== -->
-  <div id="settingsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
-    <div class="glass-card-dark max-w-md w-full mx-4 rounded-3xl p-6 shadow-2xl border border-white/20 transform scale-95 transition-all duration-300 flex flex-col space-y-5" id="settingsContent">
+  <div id="settingsModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+    <div class="glass-card-dark max-w-md w-full mx-4 rounded-3xl p-6 shadow-2xl border border-white/20 transform scale-95 transition-all duration-300 flex flex-col space-y-4" id="settingsContent">
       
       <!-- Modal Header -->
       <div class="flex justify-between items-center border-b border-white/10 pb-3">
-        <h3 class="text-xl font-bold tracking-wider text-yellow-300 uppercase flex items-center space-x-2">
+        <h3 class="text-lg font-bold tracking-wider text-yellow-300 uppercase flex items-center space-x-2">
           <svg class="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
-          <span>PENGATURAN GAMES</span>
+          <span>PENGATURAN PERTANDINGAN</span>
         </h3>
         <button id="btnCloseSettings" class="text-slate-400 hover:text-white transition-all bg-slate-800/80 hover:bg-slate-700/80 p-1.5 rounded-full">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
@@ -369,63 +512,92 @@
         
         <!-- Step count configuration -->
         <div class="flex flex-col space-y-1.5">
-          <label for="inputSteps" class="text-sm font-semibold text-blue-200 tracking-wide">Jumlah Task / Langkah Lintasan:</label>
+          <label for="inputSteps" class="text-xs font-semibold text-emerald-200 tracking-wide">Jumlah Langkah Lintasan (Goal Line):</label>
           <div class="flex items-center space-x-2">
-            <input type="number" id="inputSteps" min="3" max="25" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-yellow-300 font-bold focus:outline-none focus:border-yellow-400 w-24 text-center font-mono" value="10">
-            <span class="text-xs text-slate-400">(Rekomendasi: 5, 6, 8, atau 10 steps. Min 3, Max 25)</span>
+            <input type="number" id="inputSteps" min="3" max="25" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-yellow-300 font-bold focus:outline-none focus:border-yellow-400 w-20 text-center font-mono text-sm" value="10">
+            <span class="text-[10px] text-slate-400">(Rekomendasi: 5, 8, atau 10 steps. Min 3, Max 25)</span>
           </div>
         </div>
 
         <!-- Name customization inputs -->
-        <div class="grid grid-cols-2 gap-3">
-          <div class="flex flex-col space-y-1.5">
-            <label for="inputNameA" class="text-xs font-semibold text-rose-200 uppercase tracking-wider">Nama Kapal A:</label>
-            <input type="text" id="inputNameA" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-rose-300 focus:outline-none focus:border-rose-400 text-sm font-bold" value="KAPAL PESIAR">
-          </div>
-          <div class="flex flex-col space-y-1.5">
-            <label for="inputNameB" class="text-xs font-semibold text-teal-200 uppercase tracking-wider">Nama Kapal B:</label>
-            <input type="text" id="inputNameB" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-teal-300 focus:outline-none focus:border-teal-400 text-sm font-bold" value="KAPAL PINISI">
+        <div class="space-y-2">
+          <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">Nama Tim:</label>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="flex flex-col space-y-1">
+              <label for="inputNameA" class="text-[9px] font-semibold text-rose-300 uppercase">Tim A:</label>
+              <input type="text" id="inputNameA" class="bg-slate-900 border border-slate-700 rounded-xl px-2 py-1.5 text-rose-300 focus:outline-none focus:border-rose-400 text-xs font-bold" value="MERAH">
+            </div>
+            <div class="flex flex-col space-y-1">
+              <label for="inputNameB" class="text-[9px] font-semibold text-cyan-300 uppercase">Tim B:</label>
+              <input type="text" id="inputNameB" class="bg-slate-900 border border-slate-700 rounded-xl px-2 py-1.5 text-cyan-300 focus:outline-none focus:border-cyan-400 text-xs font-bold" value="BIRU">
+            </div>
+            <div class="flex flex-col space-y-1">
+              <label for="inputNameC" class="text-[9px] font-semibold text-amber-300 uppercase">Tim C:</label>
+              <input type="text" id="inputNameC" class="bg-slate-900 border border-slate-700 rounded-xl px-2 py-1.5 text-amber-300 focus:outline-none focus:border-amber-400 text-xs font-bold" value="KUNING">
+            </div>
           </div>
         </div>
 
         <!-- Sound & Hotkey configurations -->
-        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 flex flex-col space-y-2">
-          <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">Preferensi Audio & Kontrol</label>
+        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 flex flex-col space-y-3">
+          <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Preferensi Kontrol & Audio</label>
           
           <!-- Sound fx toggle -->
           <div class="flex items-center justify-between">
-            <span class="text-sm text-blue-100 flex items-center space-x-1.5">
-              <svg class="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <span class="text-xs text-blue-100 flex items-center space-x-1.5">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
               </svg>
-              <span>Efek Suara Horn & Melodi</span>
+              <span>Efek Suara Peluit & Tendangan</span>
             </span>
-            <input type="checkbox" id="chkSound" class="w-5 h-5 accent-yellow-300 rounded cursor-pointer" checked>
+            <input type="checkbox" id="chkSound" class="w-4 h-4 accent-emerald-500 rounded cursor-pointer" checked>
           </div>
 
-          <!-- Hotkey configurations -->
-          <div class="flex items-center justify-between">
-            <span class="text-sm text-blue-100 flex items-center space-x-1.5">
-              <svg class="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.43l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.28z"/>
-              </svg>
-              <span>Hotkey Kapal B</span>
-            </span>
-            <select id="selectHotkeyB" class="bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-yellow-300 font-bold focus:outline-none focus:border-yellow-400 text-xs">
-              <option value="KeyL">Tombol L (Rekomendasi)</option>
-              <option value="KeyB">Tombol B</option>
-            </select>
+          <!-- Hotkey selections -->
+          <div class="space-y-2 border-t border-slate-800 pt-2">
+            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Tombol Keyboard Kicker:</span>
+            <div class="grid grid-cols-3 gap-2">
+              <!-- Hotkey A -->
+              <div class="flex flex-col space-y-1">
+                <label for="selectHotkeyA" class="text-[8px] text-rose-300">Tim A (Maju):</label>
+                <select id="selectHotkeyA" class="bg-slate-900 border border-slate-700 rounded-lg px-1.5 py-1 text-yellow-300 font-bold focus:outline-none text-[10px]">
+                  <option value="KeyA">A</option>
+                  <option value="KeyQ">Q</option>
+                  <option value="Digit1">1</option>
+                </select>
+              </div>
+              <!-- Hotkey B -->
+              <div class="flex flex-col space-y-1">
+                <label for="selectHotkeyB" class="text-[8px] text-cyan-300">Tim B (Maju):</label>
+                <select id="selectHotkeyB" class="bg-slate-900 border border-slate-700 rounded-lg px-1.5 py-1 text-yellow-300 font-bold focus:outline-none text-[10px]">
+                  <option value="KeyS">S</option>
+                  <option value="KeyW">W</option>
+                  <option value="Digit2">2</option>
+                  <option value="KeyL">L</option>
+                </select>
+              </div>
+              <!-- Hotkey C -->
+              <div class="flex flex-col space-y-1">
+                <label for="selectHotkeyC" class="text-[8px] text-amber-300">Tim C (Maju):</label>
+                <select id="selectHotkeyC" class="bg-slate-900 border border-slate-700 rounded-lg px-1.5 py-1 text-yellow-300 font-bold focus:outline-none text-[10px]">
+                  <option value="KeyD">D</option>
+                  <option value="KeyE">E</option>
+                  <option value="Digit3">3</option>
+                  <option value="KeyP">P</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Heavy resetting actions -->
-        <div class="border-t border-white/10 pt-4 flex flex-col space-y-2">
+        <!-- Reset actions -->
+        <div class="border-t border-white/10 pt-3 flex flex-col space-y-2">
           <div class="flex space-x-2">
-            <button id="btnResetScores" class="w-1/2 bg-rose-900/60 hover:bg-rose-800 text-rose-200 font-bold text-xs py-2 px-3 rounded-xl border border-rose-500/20 transition-all flex items-center justify-center space-x-1" title="Reset semua skor di papan">
+            <button id="btnResetScores" class="w-1/2 bg-rose-900/60 hover:bg-rose-800 text-rose-200 font-bold text-xs py-2 px-3 rounded-xl border border-rose-500/20 transition-all flex items-center justify-center space-x-1" title="Reset semua posisi skor">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
               </svg>
-              <span>RESET SKOR (0-0)</span>
+              <span>RESET SKOR (0)</span>
             </button>
 
             <button id="btnClearCache" class="w-1/2 bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold text-xs py-2 px-3 rounded-xl border border-slate-800 transition-all" title="Kembalikan setting default">
@@ -438,7 +610,7 @@
 
       <!-- Modal Footer -->
       <div class="flex space-x-3 pt-2">
-        <button id="btnSaveSettings" class="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-extrabold py-3 px-4 rounded-xl shadow-lg transition-all text-sm uppercase tracking-wider text-center glow-gold">
+        <button id="btnSaveSettings" class="w-full bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-extrabold py-2.5 px-4 rounded-xl shadow-lg transition-all text-xs uppercase tracking-wider text-center glow-gold">
           Simpan & Terapkan
         </button>
       </div>
@@ -454,35 +626,37 @@
     <!-- Confetti Container -->
     <div id="confettiContainer" class="absolute inset-0 pointer-events-none z-10"></div>
 
-    <div class="relative max-w-lg w-full mx-4 glass-card rounded-[2.5rem] p-8 text-center border-2 border-yellow-300 shadow-2xl transform scale-95 transition-all duration-500 flex flex-col items-center space-y-6 z-20" id="victoryContent">
+    <div class="relative max-w-md w-full mx-4 glass-card rounded-[2.5rem] p-6 text-center border-2 border-yellow-300 shadow-2xl transform scale-95 transition-all duration-500 flex flex-col items-center space-y-5 z-20" id="victoryContent">
       
       <!-- Realistic Trophy Image (Floating) -->
       <div class="relative z-10 animate-float-trophy">
-        <img src="dmrcup.png" alt="DMR Cup" class="w-32 h-32 object-contain drop-shadow-[0_10px_20px_rgba(245,158,11,0.6)]">
+<img src="dmrcup.png"
+     alt="DMR Cup"
+     class="w-64 h-64 object-contain drop-shadow-[0_10px_20px_rgba(245,158,11,0.6)]">
       </div>
 
       <!-- Winning Message -->
-      <div class="space-y-2 font-beachy">
-        <h2 class="text-4xl md:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-400 to-orange-500 uppercase tracking-widest leading-tight">
-          SELAMAT!
+      <div class="space-y-1 font-beachy">
+        <h2 class="text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-400 to-orange-500 uppercase tracking-widest leading-tight">
+          GOALLL!!!
         </h2>
-        <p class="text-sm tracking-wider text-blue-100 font-playful uppercase">Menjuarai Perlombaan Ini</p>
+        <p class="text-xs tracking-wider text-emerald-200 font-playful uppercase">TIM INI MEMENANGKAN PERTANDINGAN</p>
       </div>
 
-      <!-- Winning Ship SVG Box -->
-      <div class="bg-blue-950/60 p-6 rounded-2xl border border-white/10 w-full flex flex-col items-center justify-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-blue-800/10 to-transparent"></div>
-        <!-- Ship SVG displays here dynamically -->
-        <div id="winnerShipContainer" class="relative z-10 w-32 h-16 flex items-center justify-center animate-pulse"></div>
-        <div id="winnerNameDisplay" class="relative z-10 text-3xl font-beachy uppercase text-yellow-300 tracking-wider mt-4">
-          KAPAL A (PESIAR)
+      <!-- Winning Display Box -->
+      <div class="bg-emerald-950/60 p-5 rounded-2xl border border-emerald-500/25 w-full flex flex-col items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-emerald-800/10 to-transparent"></div>
+        <!-- Winner Ball representation -->
+        <div id="winnerBallContainer" class="relative z-10 w-16 h-16 flex items-center justify-center animate-bounce"></div>
+        <div id="winnerNameDisplay" class="relative z-10 text-2xl font-beachy uppercase text-yellow-300 tracking-wider mt-3">
+          MERAH
         </div>
       </div>
 
       <!-- Call to Action Buttons -->
       <div class="w-full flex flex-col space-y-2 font-playful">
         <button id="btnWinnerContinue" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-extrabold py-3.5 px-6 rounded-2xl shadow-xl transition-all tracking-wider uppercase text-sm border border-emerald-400/20 transform active:scale-95">
-          KEMBALI
+          MAIN LAGI
         </button>
       </div>
 
@@ -491,53 +665,40 @@
 
   <!-- JavaScript Logics -->
   <script>
-    // PREDEFINED SHIPS SVG CONTENT
-    const SVG_CRUISE_SHIP = `
-      <svg viewBox="0 0 120 60" class="w-20 h-10 md:w-28 md:h-14 drop-shadow-md">
-        <path d="M 0 50 Q 30 45 60 50 T 120 50" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-dasharray="3,3" />
-        <path d="M 10 40 L 95 40 Q 115 40 108 48 L 98 52 L 15 52 Z" fill="#E11D48" />
-        <path d="M 10 32 L 102 32 C 105 32 108 34 110 37 L 107 40 L 10 40 Z" fill="#1E293B" />
-        <rect x="18" y="24" width="75" height="8" fill="#FFFFFF" rx="1" />
-        <rect x="25" y="16" width="60" height="8" fill="#FFFFFF" rx="1" />
-        <rect x="35" y="8" width="40" height="8" fill="#FFFFFF" rx="1" />
-        <rect x="42" y="1" width="6" height="7" fill="#F59E0B" />
-        <rect x="42" y="0" width="6" height="2" fill="#1E293B" />
-        <rect x="52" y="1" width="6" height="7" fill="#F59E0B" />
-        <rect x="52" y="0" width="6" height="2" fill="#1E293B" />
-        <circle cx="23" cy="28" r="1.5" fill="#334155" />
-        <circle cx="33" cy="28" r="1.5" fill="#334155" />
-        <circle cx="43" cy="28" r="1.5" fill="#334155" />
-        <circle cx="53" cy="28" r="1.5" fill="#334155" />
-        <circle cx="63" cy="28" r="1.5" fill="#334155" />
-        <circle cx="73" cy="28" r="1.5" fill="#334155" />
-        <circle cx="83" cy="28" r="1.5" fill="#334155" />
-        <circle cx="30" cy="20" r="1.2" fill="#334155" />
-        <circle cx="40" cy="20" r="1.2" fill="#334155" />
-        <circle cx="50" cy="20" r="1.2" fill="#334155" />
-        <circle cx="60" cy="20" r="1.2" fill="#334155" />
-        <circle cx="70" cy="20" r="1.2" fill="#334155" />
-        <circle cx="80" cy="20" r="1.2" fill="#334155" />
-        <path d="M 88 16 L 90 20 L 85 20 Z" fill="#38BDF8" />
-        <polygon points="12,33 5,30 12,27" fill="#E11D48" />
-      </svg>
-    `;
+    // PREDEFINED SOCCER BALL SVG CONTENT
+    const SVG_SOCCER_BALL = `
+      <svg viewBox="0 0 100 100" class="w-10 h-10 md:w-12 md:h-12 drop-shadow-[0_5px_10px_rgba(0,0,0,0.5)]">
+        <!-- Outer circle -->
+        <circle cx="50" cy="50" r="46" fill="#FFFFFF" stroke="#000000" stroke-width="4" />
+        
+        <!-- Center Pentagon -->
+        <polygon points="50,36 37,45 42,60 58,60 63,45" fill="#000000" />
+        
+        <!-- Seams to the edges -->
+        <line x1="50" y1="36" x2="50" y2="15" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+        <line x1="37" y1="45" x2="16" y2="38" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+        <line x1="42" y1="60" x2="28" y2="76" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+        <line x1="58" y1="60" x2="72" y2="76" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+        <line x1="63" y1="45" x2="84" y2="38" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+        
+        <!-- Outer black polygons at edge -->
+        <!-- Top edge shape -->
+        <polygon points="50,15 35,15 30,4 70,4 65,15" fill="#000000" />
+        <!-- Bottom Right edge shape -->
+        <polygon points="72,76 83,86 76,95 58,95 62,86" fill="#000000" />
+        <!-- Bottom Left edge shape -->
+        <polygon points="28,76 17,86 24,95 42,95 38,86" fill="#000000" />
+        <!-- Top Right edge shape -->
+        <polygon points="84,38 95,34 98,48 88,60 81,52" fill="#000000" />
+        <!-- Top Left edge shape -->
+        <polygon points="16,38 5,34 2,48 12,60 19,52" fill="#000000" />
 
-    const SVG_PINISI_SHIP = `
-      <svg viewBox="0 0 120 60" class="w-20 h-10 md:w-28 md:h-14 drop-shadow-md">
-        <path d="M 12 40 C 25 40 40 42 105 38 C 110 38 115 39 110 46 C 100 50 85 52 40 52 C 20 52 14 47 12 40 Z" fill="#78350F" />
-        <path d="M 12 40 C 25 40 40 42 105 38 L 106 41 C 80 44 40 44 12 42 Z" fill="#92400E" />
-        <path d="M 15 42 L 105 41 L 103 45 L 20 46 Z" fill="#14B8A6" />
-        <line x1="45" y1="40" x2="45" y2="8" stroke="#451A03" stroke-width="2.5" />
-        <line x1="75" y1="38" x2="75" y2="12" stroke="#451A03" stroke-width="2" />
-        <line x1="95" y1="38" x2="105" y2="22" stroke="#451A03" stroke-width="1.5" />
-        <path d="M 45 10 L 22 28 L 45 32 Z" fill="#F8FAFC" opacity="0.95" stroke="#E2E8F0" stroke-width="0.5" />
-        <path d="M 45 14 L 30 35 L 45 38 Z" fill="#F1F5F9" opacity="0.95" stroke="#E2E8F0" stroke-width="0.5" />
-        <path d="M 75 14 L 56 30 L 75 34 Z" fill="#F8FAFC" opacity="0.95" stroke="#E2E8F0" stroke-width="0.5" />
-        <path d="M 75 18 L 62 35 L 75 37 Z" fill="#F1F5F9" opacity="0.95" stroke="#E2E8F0" stroke-width="0.5" />
-        <path d="M 75 16 L 95 38 L 75 34 Z" fill="#F8FAFC" opacity="0.9" />
-        <path d="M 75 22 L 103 38 L 75 36 Z" fill="#E2E8F0" opacity="0.9" />
-        <rect x="42" y="5" width="6" height="2.5" fill="#E11D48" />
-        <rect x="42" y="7.5" width="6" height="2.5" fill="#FFFFFF" />
+        <!-- Outer connecting lines between outer shapes -->
+        <line x1="35" y1="15" x2="19" y2="52" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+        <line x1="65" y1="15" x2="81" y2="52" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+        <line x1="88" y1="60" x2="83" y2="86" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+        <line x1="62" y1="86" x2="38" y2="86" stroke="#000000" stroke-width="4" stroke-linecap="round" />
+        <line x1="17" y1="86" x2="12" y2="60" stroke="#000000" stroke-width="4" stroke-linecap="round" />
       </svg>
     `;
 
@@ -552,85 +713,86 @@
         }
       },
 
-      playHornA() {
+      // Synthesizes a soccer ball kick (brief thud)
+      playKick() {
         if (!this.enabled) return;
         this.init();
         try {
           const ctx = this.ctx;
-          const osc1 = ctx.createOscillator();
-          const osc2 = ctx.createOscillator();
-          const gainNode = ctx.createGain();
-          const filter = ctx.createBiquadFilter();
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
           
-          osc1.type = 'sawtooth';
-          osc1.frequency.setValueAtTime(75, ctx.currentTime);
-          osc1.frequency.linearRampToValueAtTime(72, ctx.currentTime + 1.2);
+          osc.type = 'sine';
+          // Fast pitch drop from 150Hz to 40Hz
+          osc.frequency.setValueAtTime(150, now);
+          osc.frequency.exponentialRampToValueAtTime(45, now + 0.12);
           
-          osc2.type = 'sawtooth';
-          osc2.frequency.setValueAtTime(113, ctx.currentTime);
-          osc2.frequency.linearRampToValueAtTime(110, ctx.currentTime + 1.2);
+          // Exponential decay
+          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
           
-          filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(250, ctx.currentTime);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
           
-          gainNode.gain.setValueAtTime(0, ctx.currentTime);
-          gainNode.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.1);
-          gainNode.gain.setValueAtTime(0.35, ctx.currentTime + 1.0);
-          gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.4);
-          
-          osc1.connect(filter);
-          osc2.connect(filter);
-          filter.connect(gainNode);
-          gainNode.connect(ctx.destination);
-          
-          osc1.start();
-          osc2.start();
-          osc1.stop(ctx.currentTime + 1.4);
-          osc2.stop(ctx.currentTime + 1.4);
+          osc.start(now);
+          osc.stop(now + 0.15);
         } catch (e) {
           console.error("Audio error: ", e);
         }
       },
 
-      playHornB() {
+      // Synthesizes a realistic referee whistle (dual tone + LFO vibrato)
+      playWhistle() {
         if (!this.enabled) return;
         this.init();
         try {
           const ctx = this.ctx;
+          const now = ctx.currentTime;
+          
+          // Two oscillators with close frequencies to create a beat/screeching tone
           const osc1 = ctx.createOscillator();
           const osc2 = ctx.createOscillator();
           const gainNode = ctx.createGain();
-          const filter = ctx.createBiquadFilter();
           
-          osc1.type = 'triangle';
-          osc1.frequency.setValueAtTime(290, ctx.currentTime);
-          osc1.frequency.linearRampToValueAtTime(295, ctx.currentTime + 0.8);
-          
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(2000, now);
           osc2.type = 'sine';
-          osc2.frequency.setValueAtTime(440, ctx.currentTime);
+          osc2.frequency.setValueAtTime(2180, now);
           
-          filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(1000, ctx.currentTime);
+          // LFO for frequency vibrato (simulates whistle pea)
+          const lfo = ctx.createOscillator();
+          const lfoGain = ctx.createGain();
+          lfo.frequency.value = 18; // 18Hz vibrato speed
+          lfoGain.gain.value = 50;  // vibrato depth
           
-          gainNode.gain.setValueAtTime(0, ctx.currentTime);
-          gainNode.gain.linearRampToValueAtTime(0.25, ctx.currentTime + 0.05);
-          gainNode.gain.setValueAtTime(0.25, ctx.currentTime + 0.7);
-          gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.0);
+          lfo.connect(lfoGain);
+          lfoGain.connect(osc1.frequency);
+          lfoGain.connect(osc2.frequency);
           
-          osc1.connect(filter);
-          osc2.connect(filter);
-          filter.connect(gainNode);
+          // Envelope: fast rise, constant tone, fast fall
+          gainNode.gain.setValueAtTime(0, now);
+          gainNode.gain.linearRampToValueAtTime(0.2, now + 0.04);
+          gainNode.gain.setValueAtTime(0.2, now + 0.3);
+          gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+          
+          osc1.connect(gainNode);
+          osc2.connect(gainNode);
           gainNode.connect(ctx.destination);
           
-          osc1.start();
-          osc2.start();
-          osc1.stop(ctx.currentTime + 1.0);
-          osc2.stop(ctx.currentTime + 1.0);
+          lfo.start(now);
+          osc1.start(now);
+          osc2.start(now);
+          
+          lfo.stop(now + 0.45);
+          osc1.stop(now + 0.45);
+          osc2.stop(now + 0.45);
         } catch (e) {
           console.error("Audio error: ", e);
         }
       },
 
+      // Celebratory crowd cheer + stadium horn + whistle blasts
       playVictory() {
         if (!this.enabled) return;
         this.init();
@@ -638,50 +800,97 @@
           const ctx = this.ctx;
           const now = ctx.currentTime;
           
-          // Happy arpeggio notes (Major scale)
-          const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
-          const duration = 0.15;
+          // 1. Double whistle blast pattern (tweet tweet tweeeet)
+          const playWhistleSub = (startDelay, duration) => {
+            const o1 = ctx.createOscillator();
+            const o2 = ctx.createOscillator();
+            const g = ctx.createGain();
+            const lf = ctx.createOscillator();
+            const lfg = ctx.createGain();
+            
+            o1.type = 'sine'; o1.frequency.value = 2100;
+            o2.type = 'sine'; o2.frequency.value = 2280;
+            lf.frequency.value = 20;
+            lfg.gain.value = 60;
+            
+            lf.connect(lfg);
+            lfg.connect(o1.frequency); lfg.connect(o2.frequency);
+            
+            g.gain.setValueAtTime(0, now + startDelay);
+            g.gain.linearRampToValueAtTime(0.15, now + startDelay + 0.02);
+            g.gain.setValueAtTime(0.15, now + startDelay + duration - 0.04);
+            g.gain.exponentialRampToValueAtTime(0.001, now + startDelay + duration);
+            
+            o1.connect(g); o2.connect(g);
+            g.connect(ctx.destination);
+            
+            lf.start(now + startDelay);
+            o1.start(now + startDelay); o2.start(now + startDelay);
+            lf.stop(now + startDelay + duration);
+            o1.stop(now + startDelay + duration); o2.stop(now + startDelay + duration);
+          };
           
-          notes.forEach((freq, index) => {
+          playWhistleSub(0, 0.12);
+          playWhistleSub(0.2, 0.12);
+          playWhistleSub(0.4, 0.8);
+          
+          // 2. Triumphant stadium brassy horn chords (at 0.4s)
+          const notes = [130, 165, 196, 260]; // C Major notes
+          notes.forEach((freq) => {
             const osc = ctx.createOscillator();
+            const filter = ctx.createBiquadFilter();
             const gain = ctx.createGain();
             
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(freq, now + index * duration);
+            osc.type = 'sawtooth';
+            osc.frequency.value = freq;
             
-            gain.gain.setValueAtTime(0, now + index * duration);
-            gain.gain.linearRampToValueAtTime(0.2, now + index * duration + 0.02);
-            gain.gain.setValueAtTime(0.2, now + index * duration + duration - 0.02);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + index * duration + duration + 0.1);
+            filter.type = 'bandpass';
+            filter.frequency.value = freq * 2;
+            filter.Q.value = 2.5;
             
-            osc.connect(gain);
+            gain.gain.setValueAtTime(0, now + 0.4);
+            gain.gain.linearRampToValueAtTime(0.1, now + 0.45);
+            gain.gain.setValueAtTime(0.1, now + 1.8);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+            
+            osc.connect(filter);
+            filter.connect(gain);
             gain.connect(ctx.destination);
             
-            osc.start(now + index * duration);
-            osc.stop(now + index * duration + duration + 0.15);
+            osc.start(now + 0.4);
+            osc.stop(now + 2.5);
           });
           
-          // Final triumphant major chord
-          const chord = [523.25, 659.25, 783.99, 1046.50];
-          const chordTime = now + notes.length * duration;
-          chord.forEach((freq) => {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, chordTime);
-            
-            gain.gain.setValueAtTime(0, chordTime);
-            gain.gain.linearRampToValueAtTime(0.15, chordTime + 0.05);
-            gain.gain.setValueAtTime(0.15, chordTime + 1.2);
-            gain.gain.exponentialRampToValueAtTime(0.001, chordTime + 1.8);
-            
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            
-            osc.start(chordTime);
-            osc.stop(chordTime + 1.8);
-          });
+          // 3. Crowd Cheer (White noise simulation)
+          const bufferSize = ctx.sampleRate * 2.5;
+          const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+          }
+          
+          const noise = ctx.createBufferSource();
+          noise.buffer = buffer;
+          
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(800, now);
+          filter.frequency.exponentialRampToValueAtTime(1200, now + 1.5);
+          filter.Q.value = 1.0;
+          
+          const noiseGain = ctx.createGain();
+          noiseGain.gain.setValueAtTime(0, now);
+          noiseGain.gain.linearRampToValueAtTime(0.15, now + 0.4);
+          noiseGain.gain.linearRampToValueAtTime(0.1, now + 1.5);
+          noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 2.5);
+          
+          noise.connect(filter);
+          filter.connect(noiseGain);
+          noiseGain.connect(ctx.destination);
+          
+          noise.start(now);
+          noise.stop(now + 2.5);
+          
         } catch (e) {
           console.error("Audio error: ", e);
         }
@@ -690,27 +899,25 @@
 
     // GAME STATE CONTROLLER
     const GameState = {
-      // Configuration values (Local Storage)
+      // Configurations (Local Storage)
       steps: 10,
-      nameA: "KAPAL PESIAR",
-      nameB: "KAPAL PINISI",
-      hotkeyB: "KeyL", // KeyL or KeyB
+      nameA: "MERAH",
+      nameB: "BIRU",
+      nameC: "KUNING",
+      hotkeyA: "KeyA",
+      hotkeyB: "KeyS",
+      hotkeyC: "KeyD",
       soundEnabled: true,
 
-      // Run-time values (Session Storage)
-      scoreA: 0,
-      scoreB: 0,
-      
-      // Live track states (Starts at 0, Finish is at total steps)
+      // Positions (Session Storage)
       posA: 0,
       posB: 0,
+      posC: 0,
       isFinished: false,
 
-      // Initializer loads cache and builds tracks
       init() {
         this.loadConfig();
         this.loadScores();
-        this.resetTrackState();
         this.syncUI();
       },
 
@@ -718,14 +925,49 @@
         const storedSteps = localStorage.getItem('dmr_steps');
         if (storedSteps) this.steps = parseInt(storedSteps);
         
-        const storedNameA = localStorage.getItem('dmr_nameA');
-        if (storedNameA) this.nameA = storedNameA;
+        // Clean up old cached keys to prevent confusion
+        localStorage.removeItem('dmr_nameA');
+        localStorage.removeItem('dmr_nameB');
+        localStorage.removeItem('dmr_nameC');
+        
+        let storedNameA = localStorage.getItem('dmr_teamA_name_v2');
+        if (storedNameA) {
+          storedNameA = storedNameA.replace(/KAPAL\s*/gi, '').trim();
+          if (storedNameA === "PESIAR" || storedNameA === "") {
+            storedNameA = "MERAH";
+          }
+          this.nameA = storedNameA;
+        } else {
+          this.nameA = "MERAH";
+        }
 
-        const storedNameB = localStorage.getItem('dmr_nameB');
-        if (storedNameB) this.nameB = storedNameB;
+        let storedNameB = localStorage.getItem('dmr_teamB_name_v2');
+        if (storedNameB) {
+          storedNameB = storedNameB.replace(/KAPAL\s*/gi, '').trim();
+          if (storedNameB === "PINISI" || storedNameB === "") {
+            storedNameB = "BIRU";
+          }
+          this.nameB = storedNameB;
+        } else {
+          this.nameB = "BIRU";
+        }
+
+        let storedNameC = localStorage.getItem('dmr_teamC_name_v2');
+        if (storedNameC) {
+          storedNameC = storedNameC.replace(/KAPAL\s*/gi, '').trim();
+          this.nameC = storedNameC || "KUNING";
+        } else {
+          this.nameC = "KUNING";
+        }
+
+        const storedHotkeyA = localStorage.getItem('dmr_hotkeyA');
+        if (storedHotkeyA) this.hotkeyA = storedHotkeyA;
 
         const storedHotkeyB = localStorage.getItem('dmr_hotkeyB');
         if (storedHotkeyB) this.hotkeyB = storedHotkeyB;
+
+        const storedHotkeyC = localStorage.getItem('dmr_hotkeyC');
+        if (storedHotkeyC) this.hotkeyC = storedHotkeyC;
 
         const storedSound = localStorage.getItem('dmr_sound');
         if (storedSound !== null) {
@@ -736,21 +978,27 @@
 
       saveConfig() {
         localStorage.setItem('dmr_steps', this.steps.toString());
-        localStorage.setItem('dmr_nameA', this.nameA);
-        localStorage.setItem('dmr_nameB', this.nameB);
+        localStorage.setItem('dmr_teamA_name_v2', this.nameA);
+        localStorage.setItem('dmr_teamB_name_v2', this.nameB);
+        localStorage.setItem('dmr_teamC_name_v2', this.nameC);
+        localStorage.setItem('dmr_hotkeyA', this.hotkeyA);
         localStorage.setItem('dmr_hotkeyB', this.hotkeyB);
+        localStorage.setItem('dmr_hotkeyC', this.hotkeyC);
         localStorage.setItem('dmr_sound', this.soundEnabled.toString());
         AudioEngine.enabled = this.soundEnabled;
       },
 
       loadScores() {
-        const storedPosA = sessionStorage.getItem('dmr_posA');
-        if (storedPosA !== null) this.posA = parseInt(storedPosA);
+        const sA = sessionStorage.getItem('dmr_posA');
+        if (sA !== null) this.posA = parseInt(sA);
 
-        const storedPosB = sessionStorage.getItem('dmr_posB');
-        if (storedPosB !== null) this.posB = parseInt(storedPosB);
+        const sB = sessionStorage.getItem('dmr_posB');
+        if (sB !== null) this.posB = parseInt(sB);
+
+        const sC = sessionStorage.getItem('dmr_posC');
+        if (sC !== null) this.posC = parseInt(sC);
         
-        if (this.posA >= this.steps || this.posB >= this.steps) {
+        if (this.posA >= this.steps || this.posB >= this.steps || this.posC >= this.steps) {
           this.isFinished = true;
         }
       },
@@ -758,11 +1006,13 @@
       saveScores() {
         sessionStorage.setItem('dmr_posA', this.posA.toString());
         sessionStorage.setItem('dmr_posB', this.posB.toString());
+        sessionStorage.setItem('dmr_posC', this.posC.toString());
       },
 
       resetScores() {
         this.posA = 0;
         this.posB = 0;
+        this.posC = 0;
         this.isFinished = false;
         this.saveScores();
         this.syncUI();
@@ -771,145 +1021,190 @@
       resetTrackState() {
         this.posA = 0;
         this.posB = 0;
+        this.posC = 0;
         this.isFinished = false;
         this.saveScores();
       },
 
       // Update positions
-      moveShipA(amount) {
+      moveTeam(teamId, amount) {
         if (this.isFinished && amount > 0) return;
-        const newPos = Math.max(0, Math.min(this.steps, this.posA + amount));
-        if (newPos !== this.posA) {
-          this.posA = newPos;
-          if (this.isFinished && this.posA < this.steps) {
-            this.isFinished = false;
+        
+        let currentPos = 0;
+        let name = "";
+        if (teamId === 'A') { currentPos = this.posA; name = this.nameA; }
+        else if (teamId === 'B') { currentPos = this.posB; name = this.nameB; }
+        else if (teamId === 'C') { currentPos = this.posC; name = this.nameC; }
+
+        const newPos = Math.max(0, Math.min(this.steps, currentPos + amount));
+        
+        if (newPos !== currentPos) {
+          if (teamId === 'A') this.posA = newPos;
+          else if (teamId === 'B') this.posB = newPos;
+          else if (teamId === 'C') this.posC = newPos;
+
+          // If moved backward, check if we need to remove finish state
+          if (this.isFinished && newPos < this.steps) {
+            if (this.posA < this.steps && this.posB < this.steps && this.posC < this.steps) {
+              this.isFinished = false;
+            }
           }
-          if (amount > 0) AudioEngine.playHornA();
+
+          if (amount > 0) {
+            AudioEngine.playKick();
+            this.triggerKickAnimation(teamId);
+            
+            // Offside Warning alert (second-to-last node warning)
+            if (newPos === this.steps - 1) {
+              showOffsideWarning(name);
+            }
+          }
+
           this.saveScores();
           this.checkWinCondition();
           this.syncUI();
         }
       },
 
-      moveShipB(amount) {
-        if (this.isFinished && amount > 0) return;
-        const newPos = Math.max(0, Math.min(this.steps, this.posB + amount));
-        if (newPos !== this.posB) {
-          this.posB = newPos;
-          if (this.isFinished && this.posB < this.steps) {
-            this.isFinished = false;
-          }
-          if (amount > 0) AudioEngine.playHornB();
-          this.saveScores();
-          this.checkWinCondition();
-          this.syncUI();
+      // Shake visual action on kicker
+      triggerKickAnimation(teamId) {
+        const player = document.getElementById(`player${teamId}`);
+        if (player) {
+          player.classList.remove('animate-kick');
+          void player.offsetWidth; // trigger reflow
+          player.classList.add('animate-kick');
         }
       },
 
       checkWinCondition() {
         if (this.posA >= this.steps) {
           this.isFinished = true;
-          setTimeout(() => showVictory(this.nameA, SVG_CRUISE_SHIP), 600);
+          setTimeout(() => showVictory(this.nameA, 'rose'), 600);
         } else if (this.posB >= this.steps) {
           this.isFinished = true;
-          setTimeout(() => showVictory(this.nameB, SVG_PINISI_SHIP), 600);
+          setTimeout(() => showVictory(this.nameB, 'cyan'), 600);
+        } else if (this.posC >= this.steps) {
+          this.isFinished = true;
+          setTimeout(() => showVictory(this.nameC, 'amber'), 600);
         }
       },
 
-      // Renders and updates all elements based on state
+      // UI Sync
       syncUI() {
-        // Text labels and score displays (using track positions as scores)
-        document.getElementById('shipAScore').textContent = this.posA;
-        document.getElementById('shipBScore').textContent = this.posB;
-        document.getElementById('shipAName').textContent = this.nameA;
-        document.getElementById('shipBName').textContent = this.nameB;
+        // Scores
+        document.getElementById('teamAScore').textContent = this.posA;
+        document.getElementById('teamBScore').textContent = this.posB;
+        document.getElementById('teamCScore').textContent = this.posC;
+
+        // Editable Names
+        document.getElementById('teamAName').textContent = this.nameA;
+        document.getElementById('teamBName').textContent = this.nameB;
+        document.getElementById('teamCName').textContent = this.nameC;
+
+        // Track Headers
         document.getElementById('laneLabelA').textContent = `LINTASAN A: ${this.nameA}`;
         document.getElementById('laneLabelB').textContent = `LINTASAN B: ${this.nameB}`;
-        
-        // Progress strings
+        document.getElementById('laneLabelC').textContent = `LINTASAN C: ${this.nameC}`;
+
+        // Progress Text
         document.getElementById('laneProgressA').textContent = `${this.posA} / ${this.steps} Langkah`;
         document.getElementById('laneProgressB').textContent = `${this.posB} / ${this.steps} Langkah`;
-        
-        // Config settings inputs
+        document.getElementById('laneProgressC').textContent = `${this.posC} / ${this.steps} Langkah`;
+
+        // Setting Inputs Sync
         document.getElementById('currentStepsDisplay').textContent = this.steps;
-        document.getElementById('inputSteps').value = this.steps;
-        document.getElementById('inputNameA').value = this.nameA;
-        document.getElementById('inputNameB').value = this.nameB;
-        document.getElementById('chkSound').checked = this.soundEnabled;
-        document.getElementById('selectHotkeyB').value = this.hotkeyB;
 
-        // Label update for Hotkey B button
-        const hotkeyChar = this.hotkeyB === 'KeyL' ? 'L' : 'B';
-        const charEl = document.getElementById('btnHotkeyCharB');
-        if (charEl) charEl.textContent = hotkeyChar;
-
-        // Render SVGs inside the ship nodes
-        const shipA = document.getElementById('shipA');
-        const shipB = document.getElementById('shipB');
-        if (!shipA.innerHTML.trim()) shipA.innerHTML = SVG_CRUISE_SHIP;
-        if (!shipB.innerHTML.trim()) shipB.innerHTML = SVG_PINISI_SHIP;
-
-        // Calculate and apply translate offset percentages
-        // Ships are absolute-positioned, and their centers sit on the respective step circles.
-        const pctA = (this.posA / this.steps) * 100;
-        const pctB = (this.posB / this.steps) * 100;
-        shipA.style.left = `${pctA}%`;
-        shipB.style.left = `${pctB}%`;
+        // Hotkey indicators inside buttons
+        const charA = this.hotkeyA.replace('Key', '').replace('Digit', '');
+        const charB = this.hotkeyB.replace('Key', '').replace('Digit', '');
+        const charC = this.hotkeyC.replace('Key', '').replace('Digit', '');
         
-        // Progress Bar tracks styling widths
-        document.getElementById('trackFillA').style.width = `${pctA}%`;
-        document.getElementById('trackFillB').style.width = `${pctB}%`;
+        document.getElementById('btnStepIncA').innerHTML = `TENDANG [${charA}]`;
+        document.getElementById('btnHotkeyCharB').textContent = charB;
+        document.getElementById('btnHotkeyCharC').textContent = charC;
 
-        // Render dynamic step nodes in both tracks
+        // Soccer Balls Inject
+        const ballA = document.getElementById('ballA');
+        const ballB = document.getElementById('ballB');
+        const ballC = document.getElementById('ballC');
+        if (!ballA.innerHTML.trim()) ballA.innerHTML = SVG_SOCCER_BALL;
+        if (!ballB.innerHTML.trim()) ballB.innerHTML = SVG_SOCCER_BALL;
+        if (!ballC.innerHTML.trim()) ballC.innerHTML = SVG_SOCCER_BALL;
+
+        // Position Ball within track boundaries (between left-16=64px and right-20=80px from right)
+        // Ball moves from 64px (start) to 100% - 80px (finish at goal post), staying inside nodes
+        const pctA = (this.posA / this.steps);
+        const pctB = (this.posB / this.steps);
+        const pctC = (this.posC / this.steps);
+
+        // Use calc() to interpolate: start=64px, end=100%-80px
+        ballA.style.left = `calc(64px + ${pctA} * (100% - 64px - 80px))`;
+        ballB.style.left = `calc(64px + ${pctB} * (100% - 64px - 80px))`;
+        ballC.style.left = `calc(64px + ${pctC} * (100% - 64px - 80px))`;
+
+        // Progress bar lines width — also limited within track (from left-16, max to just before goal)
+        document.getElementById('trackFillA').style.width = `calc(${pctA} * (100% - 64px - 80px))`;
+        document.getElementById('trackFillB').style.width = `calc(${pctB} * (100% - 64px - 80px))`;
+        document.getElementById('trackFillC').style.width = `calc(${pctC} * (100% - 64px - 80px))`;
+
+        // Render dynamic step circles on fields
         this.renderTrackNodes('nodesContainerA', this.posA, 'rose');
-        this.renderTrackNodes('nodesContainerB', this.posB, 'teal');
+        this.renderTrackNodes('nodesContainerB', this.posB, 'cyan');
+        this.renderTrackNodes('nodesContainerC', this.posC, 'amber');
       },
 
       renderTrackNodes(containerId, currentPos, colorClass) {
         const container = document.getElementById(containerId);
+        if (!container) return;
         container.innerHTML = '';
-        
+
         for (let i = 0; i <= this.steps; i++) {
           const node = document.createElement('div');
           node.className = "relative flex flex-col items-center justify-center";
           
-          let nodeInner = '';
           const isActive = i === currentPos;
           const isVisited = i < currentPos;
 
-          // Highlight styling
+          // Color themes for nodes
           let bgClass = "bg-slate-900/60 border-slate-700 text-slate-400";
           if (isActive) {
-            bgClass = colorClass === 'rose' 
-              ? "bg-rose-500 text-white font-bold border-rose-300 ring-4 ring-rose-500/30 scale-110 shadow-lg shadow-rose-900/50" 
-              : "bg-teal-500 text-white font-bold border-teal-300 ring-4 ring-teal-500/30 scale-110 shadow-lg shadow-teal-900/50";
+            if (colorClass === 'rose') {
+              bgClass = "bg-rose-500 text-white font-bold border-rose-300 ring-4 ring-rose-500/30 scale-110 shadow-lg shadow-rose-900/50";
+            } else if (colorClass === 'cyan') {
+              bgClass = "bg-cyan-500 text-white font-bold border-cyan-300 ring-4 ring-cyan-500/30 scale-110 shadow-lg shadow-cyan-900/50";
+            } else if (colorClass === 'amber') {
+              bgClass = "bg-amber-500 text-white font-bold border-amber-300 ring-4 ring-amber-500/30 scale-110 shadow-lg shadow-amber-900/50";
+            }
           } else if (isVisited) {
-            bgClass = colorClass === 'rose' 
-              ? "bg-rose-950/70 border-rose-600/60 text-rose-300 font-semibold" 
-              : "bg-teal-950/70 border-teal-600/60 text-teal-300 font-semibold";
+            if (colorClass === 'rose') {
+              bgClass = "bg-rose-950/70 border-rose-600/60 text-rose-300 font-semibold";
+            } else if (colorClass === 'cyan') {
+              bgClass = "bg-cyan-950/70 border-cyan-600/60 text-cyan-300 font-semibold";
+            } else if (colorClass === 'amber') {
+              bgClass = "bg-amber-950/70 border-amber-600/60 text-amber-300 font-semibold";
+            }
           }
 
-          // START & FINISH formatting
           let labelText = i.toString();
           let flagText = "";
+          
           if (i === 0) {
             labelText = "S";
-            flagText = `<span class="absolute -top-7 text-[9px] uppercase font-extrabold tracking-wider ${isActive ? 'text-yellow-300 scale-110' : 'text-slate-300'}">MULAI</span>`;
+            flagText = `<span class="absolute -top-7 text-[8px] md:text-[9px] uppercase font-extrabold tracking-wider ${isActive ? 'text-yellow-300 scale-110' : 'text-slate-300'}">MULAI</span>`;
           } else if (i === this.steps) {
-            labelText = "F";
-            // Checkered Trophy icon style for FINISH
+            labelText = "G";
             flagText = `
-              <span class="absolute -top-7 text-[9px] uppercase font-extrabold tracking-wider flex items-center space-x-1 ${isActive ? 'text-yellow-300 scale-110' : 'text-yellow-400'}">
-                <svg class="w-3.5 h-3.5 text-yellow-400 inline" fill="currentColor" viewBox="0 0 20 20">
+              <span class="absolute -top-7 text-[8px] md:text-[9px] uppercase font-extrabold tracking-wider flex items-center space-x-0.5 ${isActive ? 'text-yellow-300 scale-110' : 'text-yellow-400'}">
+                <svg class="w-3 h-3 text-yellow-400 inline" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
                 </svg>
-                <span>SELESAI</span>
+                <span>GOL!</span>
               </span>`;
           }
 
           node.innerHTML = `
             ${flagText}
-            <div class="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 flex items-center justify-center text-xs md:text-sm font-bold transition-all duration-300 ${bgClass}">
+            <div class="w-8 h-8 md:w-9 md:h-9 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-300 ${bgClass}">
               ${labelText}
             </div>
           `;
@@ -925,52 +1220,45 @@
       GameState.init();
 
       // STEP CONTROLS (FORWARD & BACK)
-      // Cruise Ship A
-      document.getElementById('btnStepIncA').addEventListener('click', () => GameState.moveShipA(1));
-      document.getElementById('btnStepDecA').addEventListener('click', () => GameState.moveShipA(-1));
-      // Pinisi Ship B
-      document.getElementById('btnStepIncB').addEventListener('click', () => GameState.moveShipB(1));
-      document.getElementById('btnStepDecB').addEventListener('click', () => GameState.moveShipB(-1));
+      // Team A
+      document.getElementById('btnStepIncA').addEventListener('click', () => GameState.moveTeam('A', 1));
+      document.getElementById('btnStepDecA').addEventListener('click', () => GameState.moveTeam('A', -1));
+      // Team B
+      document.getElementById('btnStepIncB').addEventListener('click', () => GameState.moveTeam('B', 1));
+      document.getElementById('btnStepDecB').addEventListener('click', () => GameState.moveTeam('B', -1));
+      // Team C
+      document.getElementById('btnStepIncC').addEventListener('click', () => GameState.moveTeam('C', 1));
+      document.getElementById('btnStepDecC').addEventListener('click', () => GameState.moveTeam('C', -1));
 
-
-
-      // INLINE EDIT NAMES BLUR/ENTER TRIGGERS
-      // Ship A inline editor
-      const shipANameEl = document.getElementById('shipAName');
-      shipANameEl.addEventListener('blur', () => {
-        const cleanName = shipANameEl.textContent.trim().toUpperCase();
-        if (cleanName) {
-          GameState.nameA = cleanName;
-          GameState.saveConfig();
-        }
-        GameState.syncUI();
-      });
-      shipANameEl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          shipANameEl.blur();
-        }
-      });
-      // Ship B inline editor
-      const shipBNameEl = document.getElementById('shipBName');
-      shipBNameEl.addEventListener('blur', () => {
-        const cleanName = shipBNameEl.textContent.trim().toUpperCase();
-        if (cleanName) {
-          GameState.nameB = cleanName;
-          GameState.saveConfig();
-        }
-        GameState.syncUI();
-      });
-      shipBNameEl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          shipBNameEl.blur();
-        }
-      });
+      // Inline edits triggers
+      const bindInlineEditor = (elementId, stateProp) => {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        el.addEventListener('blur', () => {
+          const cleanName = el.textContent.trim().toUpperCase();
+          if (cleanName) {
+            GameState[stateProp] = cleanName;
+            GameState.saveConfig();
+          }
+          GameState.syncUI();
+        });
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            el.blur();
+          }
+        });
+      };
+      
+      bindInlineEditor('teamAName', 'nameA');
+      bindInlineEditor('teamBName', 'nameB');
+      bindInlineEditor('teamCName', 'nameC');
 
       // GLOBAL RE-START TRACK (RESET LINTASAN)
       document.getElementById('btnResetTrack').addEventListener('click', () => {
-        if (confirm("Reset lintasan ini? Posisi kedua kapal akan dikembalikan ke posisi START.")) {
+        if (confirm("Reset lintasan? Posisi ketiga bola akan dikembalikan ke garis START.")) {
+          // Play a whistle blow to start the match!
+          AudioEngine.playWhistle();
           GameState.resetTrackState();
           GameState.syncUI();
         }
@@ -981,6 +1269,15 @@
       const modalContent = document.getElementById('settingsContent');
       
       const openSettings = () => {
+        document.getElementById('inputSteps').value = GameState.steps;
+        document.getElementById('inputNameA').value = GameState.nameA;
+        document.getElementById('inputNameB').value = GameState.nameB;
+        document.getElementById('inputNameC').value = GameState.nameC;
+        document.getElementById('selectHotkeyA').value = GameState.hotkeyA;
+        document.getElementById('selectHotkeyB').value = GameState.hotkeyB;
+        document.getElementById('selectHotkeyC').value = GameState.hotkeyC;
+        document.getElementById('chkSound').checked = GameState.soundEnabled;
+
         modal.classList.remove('opacity-0', 'pointer-events-none');
         modalContent.classList.remove('scale-95');
         modalContent.classList.add('scale-100');
@@ -995,7 +1292,6 @@
       document.getElementById('btnOpenSettings').addEventListener('click', openSettings);
       document.getElementById('btnCloseSettings').addEventListener('click', closeSettings);
       
-      // Close on clicking overlay outside the content box
       modal.addEventListener('click', (e) => {
         if (e.target === modal) closeSettings();
       });
@@ -1005,24 +1301,32 @@
         const stepsVal = parseInt(document.getElementById('inputSteps').value);
         const nameAVal = document.getElementById('inputNameA').value.trim().toUpperCase();
         const nameBVal = document.getElementById('inputNameB').value.trim().toUpperCase();
+        const nameCVal = document.getElementById('inputNameC').value.trim().toUpperCase();
+        const hotkeyAVal = document.getElementById('selectHotkeyA').value;
+        const hotkeyBVal = document.getElementById('selectHotkeyB').value;
+        const hotkeyCVal = document.getElementById('selectHotkeyC').value;
         const soundChecked = document.getElementById('chkSound').checked;
-        const hotkeyBSelect = document.getElementById('selectHotkeyB').value;
 
         if (stepsVal && stepsVal >= 3 && stepsVal <= 25) {
           GameState.steps = stepsVal;
         } else {
-          alert("Jumlah task minimal 3 dan maksimal 25!");
+          alert("Jumlah langkah minimal 3 dan maksimal 25!");
           return;
         }
 
         if (nameAVal) GameState.nameA = nameAVal;
         if (nameBVal) GameState.nameB = nameBVal;
-        GameState.soundEnabled = soundChecked;
-        GameState.hotkeyB = hotkeyBSelect;
+        if (nameCVal) GameState.nameC = nameCVal;
 
-        // Cap positions if steps reduced below active coordinates
+        GameState.hotkeyA = hotkeyAVal;
+        GameState.hotkeyB = hotkeyBVal;
+        GameState.hotkeyC = hotkeyCVal;
+        GameState.soundEnabled = soundChecked;
+
+        // Cap positions
         if (GameState.posA > GameState.steps) GameState.posA = GameState.steps;
         if (GameState.posB > GameState.steps) GameState.posB = GameState.steps;
+        if (GameState.posC > GameState.steps) GameState.posC = GameState.steps;
 
         GameState.saveConfig();
         GameState.syncUI();
@@ -1031,29 +1335,40 @@
 
       // Reset scores button inside settings
       document.getElementById('btnResetScores').addEventListener('click', () => {
-        if (confirm("Reset posisi lintasan? Posisi Kapal A & B akan dikembalikan ke 0.")) {
+        if (confirm("Reset posisi lintasan? Semua posisi bola tim akan dikembalikan ke 0.")) {
           GameState.resetScores();
         }
       });
 
       // Clear local storage and caches
       document.getElementById('btnClearCache').addEventListener('click', () => {
-        if (confirm("Kembalikan seluruh nama dan preferensi game ke konfigurasi awal?")) {
+        if (confirm("Kembalikan seluruh nama dan preferensi game ke konfigurasi awal sepak bola?")) {
           localStorage.removeItem('dmr_steps');
+          localStorage.removeItem('dmr_teamA_name_v2');
+          localStorage.removeItem('dmr_teamB_name_v2');
+          localStorage.removeItem('dmr_teamC_name_v2');
           localStorage.removeItem('dmr_nameA');
           localStorage.removeItem('dmr_nameB');
+          localStorage.removeItem('dmr_nameC');
+          localStorage.removeItem('dmr_hotkeyA');
           localStorage.removeItem('dmr_hotkeyB');
+          localStorage.removeItem('dmr_hotkeyC');
           localStorage.removeItem('dmr_sound');
           sessionStorage.removeItem('dmr_posA');
           sessionStorage.removeItem('dmr_posB');
+          sessionStorage.removeItem('dmr_posC');
           
           GameState.steps = 10;
-          GameState.nameA = "KAPAL PESIAR";
-          GameState.nameB = "KAPAL PINISI";
-          GameState.hotkeyB = "KeyL";
+          GameState.nameA = "MERAH";
+          GameState.nameB = "BIRU";
+          GameState.nameC = "KUNING";
+          GameState.hotkeyA = "KeyA";
+          GameState.hotkeyB = "KeyS";
+          GameState.hotkeyC = "KeyD";
           GameState.soundEnabled = true;
           GameState.posA = 0;
           GameState.posB = 0;
+          GameState.posC = 0;
           GameState.resetTrackState();
           
           GameState.saveConfig();
@@ -1065,7 +1380,6 @@
 
       // KEYBOARD SHORTCUTS CONTROLLER
       document.addEventListener('keydown', (e) => {
-        // Do not trigger shortcut if user is typing in settings inputs or inline editors
         if (document.activeElement.tagName === 'INPUT' || 
             document.activeElement.getAttribute('contenteditable') === 'true') {
           return;
@@ -1073,22 +1387,31 @@
 
         const keyCode = e.code;
         
-        // Ship A Forward: A key
-        if (keyCode === 'KeyA') {
+        // Team A Forward
+        if (keyCode === GameState.hotkeyA) {
           e.preventDefault();
           const btn = document.getElementById('btnStepIncA');
           btn.classList.add('scale-95', 'brightness-90');
           setTimeout(() => btn.classList.remove('scale-95', 'brightness-90'), 100);
-          GameState.moveShipA(1);
+          GameState.moveTeam('A', 1);
         }
         
-        // Ship B Forward: L or B (configured in settings)
+        // Team B Forward
         if (keyCode === GameState.hotkeyB) {
           e.preventDefault();
           const btn = document.getElementById('btnStepIncB');
           btn.classList.add('scale-95', 'brightness-90');
           setTimeout(() => btn.classList.remove('scale-95', 'brightness-90'), 100);
-          GameState.moveShipB(1);
+          GameState.moveTeam('B', 1);
+        }
+
+        // Team C Forward
+        if (keyCode === GameState.hotkeyC) {
+          e.preventDefault();
+          const btn = document.getElementById('btnStepIncC');
+          btn.classList.add('scale-95', 'brightness-90');
+          setTimeout(() => btn.classList.remove('scale-95', 'brightness-90'), 100);
+          GameState.moveTeam('C', 1);
         }
       });
 
@@ -1098,31 +1421,39 @@
         GameState.resetTrackState();
         GameState.syncUI();
       });
-
-
     });
 
     // ==============================================
     // CELEBRATION CONFETTI & OVERLAY TRIGGERS
     // ==============================================
-    function showVictory(name, shipSvg) {
-      // Play Audio Melodies
+    function showVictory(name, winnerColor) {
       AudioEngine.playVictory();
 
       const overlay = document.getElementById('victoryOverlay');
       const content = document.getElementById('victoryContent');
       const nameDisplay = document.getElementById('winnerNameDisplay');
-      const shipContainer = document.getElementById('winnerShipContainer');
+      const ballContainer = document.getElementById('winnerBallContainer');
 
       nameDisplay.textContent = name;
-      shipContainer.innerHTML = shipSvg;
+      ballContainer.innerHTML = SVG_SOCCER_BALL;
 
-      // Unhide modal overlay
+      // Color-themed updates to the victory card
+      content.classList.remove('border-rose-500', 'border-cyan-500', 'border-amber-500');
+      if (winnerColor === 'rose') {
+        content.classList.add('border-rose-500');
+        nameDisplay.className = "relative z-10 text-3xl font-beachy uppercase text-rose-400 tracking-wider mt-3";
+      } else if (winnerColor === 'cyan') {
+        content.classList.add('border-cyan-500');
+        nameDisplay.className = "relative z-10 text-3xl font-beachy uppercase text-cyan-400 tracking-wider mt-3";
+      } else {
+        content.classList.add('border-amber-500');
+        nameDisplay.className = "relative z-10 text-3xl font-beachy uppercase text-yellow-300 tracking-wider mt-3";
+      }
+
       overlay.classList.remove('opacity-0', 'pointer-events-none');
       content.classList.remove('scale-95');
       content.classList.add('scale-100');
 
-      // Trigger looping confetti particles
       startConfetti();
     }
 
@@ -1134,8 +1465,32 @@
       content.classList.remove('scale-100');
       content.classList.add('scale-95');
 
-      // Remove confetti
       stopConfetti();
+    }
+
+    // Dynamic offside toast warning
+    function showOffsideWarning(teamName) {
+      AudioEngine.playWhistle();
+
+      // Check if there is already a toast, if so remove it
+      const oldToast = document.getElementById('offsideToast');
+      if (oldToast) oldToast.remove();
+      
+      const toast = document.createElement('div');
+      toast.id = "offsideToast";
+      toast.className = "fixed top-28 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-slate-950 font-extrabold px-6 py-3 rounded-2xl shadow-2xl border-2 border-yellow-300 z-50 flex items-center space-x-2 animate-bounce uppercase tracking-wider text-xs md:text-sm font-playful";
+      toast.innerHTML = `
+        <svg viewBox="0 0 24 24" class="w-5 h-5 text-slate-950" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </svg>
+        <span>PRRIIT! WASIT: ${teamName} HAMPIR OFFSIDE!</span>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+        setTimeout(() => toast.remove(), 500);
+      }, 1600);
     }
 
     let confettiTimer = null;
@@ -1145,19 +1500,16 @@
       
       const colors = ['#F59E0B', '#E11D48', '#10B981', '#3B82F6', '#8B5CF6', '#EC4899', '#14B8A6'];
       
-      // Spawn loop - Generates dense colorful rain particles
       confettiTimer = setInterval(() => {
-        // Spawn 5 particles at a time for maximum volume and festivity
         for (let i = 0; i < 5; i++) {
           const p = document.createElement('div');
           p.className = 'confetti';
           
-          // Random properties
-          const size = Math.floor(Math.random() * 8) + 6; // 6 to 14 px
-          const left = Math.floor(Math.random() * 100); // 0 to 100%
+          const size = Math.floor(Math.random() * 8) + 6; 
+          const left = Math.floor(Math.random() * 100); 
           const color = colors[Math.floor(Math.random() * colors.length)];
-          const delay = Math.random() * 0.4; // 0 to 0.4s for quicker initial cascade
-          const duration = Math.random() * 2 + 2; // 2 to 4s falling duration
+          const delay = Math.random() * 0.4; 
+          const duration = Math.random() * 2 + 2; 
           const shape = Math.random() > 0.5 ? 'rounded-full' : 'rounded-sm';
 
           p.style.width = `${size}px`;
@@ -1170,10 +1522,9 @@
 
           container.appendChild(p);
 
-          // Remove element after animation ends
           setTimeout(() => p.remove(), (duration + delay) * 1000);
         }
-      }, 50); // Speed up spawn check to every 50ms (dense rain)
+      }, 50); 
     }
 
     function stopConfetti() {
