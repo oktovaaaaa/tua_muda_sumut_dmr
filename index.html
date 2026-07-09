@@ -117,7 +117,7 @@
     }
   </style>
 </head>
-<body class="bg-gradient-to-b from-slate-950 via-emerald-950 to-slate-950 h-screen max-h-screen text-white font-sans overflow-hidden flex flex-col justify-between select-none relative">
+<body class="bg-gradient-to-b from-slate-950 via-emerald-950 to-slate-950 min-h-screen text-white font-sans overflow-x-hidden overflow-y-auto md:h-screen md:max-h-screen md:overflow-hidden flex flex-col justify-between select-none relative">
 
   <!-- Stadium Light Beams in the Background -->
   <div class="absolute inset-0 pointer-events-none opacity-20 overflow-hidden z-0">
@@ -129,10 +129,10 @@
   <header class="relative z-10 w-full px-4 pt-4 pb-2 max-w-[95%] mx-auto flex flex-col space-y-4">
     
     <!-- Top Row: Logo & Referee Branding & Global Controls -->
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4 bg-slate-950/45 p-4 rounded-[2rem] border border-white/5 backdrop-blur-sm shadow-xl">
+    <div class="flex flex-row items-center justify-between gap-2 bg-slate-950/45 p-2 md:p-4 rounded-[1.5rem] md:rounded-[2rem] border border-white/5 backdrop-blur-sm shadow-xl">
       <!-- Title Logo -->
-      <div class="flex items-center space-x-3">
-        <img src="dmr_title.png" alt="Games Jumat Ceria DMR" class="h-10 md:h-12 w-auto object-contain hover:scale-[1.02] transition-transform duration-300">
+      <div class="flex items-center">
+        <img src="dmr_title.png" alt="Games Jumat Ceria DMR" class="h-7 md:h-12 w-auto object-contain">
       </div>
       
       <!-- Referee Status Branding -->
@@ -154,20 +154,21 @@
       </div>
 
       <!-- Global Controls -->
-      <div class="flex items-center justify-center space-x-2.5 font-playful text-[10px] md:text-xs">
-        <span class="bg-emerald-950/40 border border-emerald-500/20 px-3 py-2 rounded-full text-emerald-200">
+      <div class="flex items-center justify-center space-x-1.5 md:space-x-2.5 font-playful text-[9px] md:text-xs">
+        <span class="hidden md:inline bg-emerald-950/40 border border-emerald-500/20 px-3 py-2 rounded-full text-emerald-200">
           Lintasan: <span id="currentStepsDisplay" class="text-yellow-300 font-mono font-bold">10</span> Langkah
         </span>
-        <span class="bg-slate-800/80 px-2.5 py-2 rounded-full text-yellow-300 font-beachy">MATCH DAY</span>
+        <span class="hidden md:inline bg-slate-800/80 px-2.5 py-2 rounded-full text-yellow-300 font-beachy">MATCH DAY</span>
         <!-- Reset Lintasan -->
-        <button id="btnResetTrack" class="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-4 py-2 rounded-full flex items-center space-x-1.5 transition-all active:scale-95 shadow-md shadow-amber-950/30" title="Mulai ulang lintasan ini">
+        <button id="btnResetTrack" class="bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold px-2 md:px-4 py-1.5 md:py-2 rounded-full flex items-center space-x-1 md:space-x-1.5 transition-all active:scale-95 shadow-md shadow-amber-950/30" title="Mulai ulang lintasan ini">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
           </svg>
-          <span>RESET LINTASAN</span>
+          <span class="hidden md:inline">RESET LINTASAN</span>
+          <span class="md:hidden">RESET</span>
         </button>
         <!-- Settings Button -->
-        <button id="btnOpenSettings" class="bg-slate-800/80 hover:bg-slate-700 text-white font-bold p-2.5 rounded-full border border-white/10 transition-all active:scale-95" title="Buka Pengaturan">
+        <button id="btnOpenSettings" class="bg-slate-800/80 hover:bg-slate-700 text-white font-bold p-2 md:p-2.5 rounded-full border border-white/10 transition-all active:scale-95" title="Buka Pengaturan">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.43l-1.003.828c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.43l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.28z"/>
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -176,107 +177,98 @@
       </div>
     </div>
 
-    <!-- 3 Scoreboards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch">
+    <!-- 3 Scoreboards Grid: always 3 columns, compact on mobile -->
+    <div class="grid grid-cols-3 gap-2 md:gap-4 items-stretch">
       
       <!-- Team A Score Panel -->
-      <div class="glass-card-dark rounded-3xl p-4 border-l-4 border-rose-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
+      <div class="glass-card-dark rounded-2xl md:rounded-3xl p-2 md:p-4 border-l-4 border-rose-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
         <!-- Accent color corner glow -->
         <div class="absolute -top-10 -left-10 w-24 h-24 bg-rose-500/20 rounded-full filter blur-xl"></div>
         
         <!-- Team Name (Top) -->
         <div class="text-center z-10 relative">
-          <div class="flex items-center justify-center space-x-1.5">
-            <span id="teamAName" class="text-lg md:text-xl font-playful uppercase tracking-wider text-rose-200 outline-none border-b border-transparent focus:border-rose-400 focus:bg-rose-950/40 px-2 py-0.5 rounded cursor-pointer font-extrabold" contenteditable="true" title="Klik untuk mengubah nama">
+          <div class="flex items-center justify-center space-x-1">
+            <span id="teamAName" class="text-xs md:text-xl font-playful uppercase tracking-wider text-rose-200 outline-none border-b border-transparent focus:border-rose-400 focus:bg-rose-950/40 px-1 py-0.5 rounded cursor-pointer font-extrabold leading-tight" contenteditable="true" title="Klik untuk mengubah nama">
               MERAH
             </span>
-            <svg class="w-3.5 h-3.5 text-rose-400 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>
-            </svg>
           </div>
-          <div class="text-[10px] text-rose-400 font-playful tracking-widest uppercase">Striker Merah</div>
+          <div class="hidden md:block text-[10px] text-rose-400 font-playful tracking-widest uppercase">Striker Merah</div>
         </div>
         
         <!-- Score Display (Middle) -->
-        <div id="teamAScore" class="text-5xl md:text-6xl font-beachy text-rose-500 text-center my-2 select-none drop-shadow-[0_4px_12px_rgba(244,63,94,0.6)] z-10 relative">
+        <div id="teamAScore" class="text-3xl md:text-6xl font-beachy text-rose-500 text-center my-1 md:my-2 select-none drop-shadow-[0_4px_12px_rgba(244,63,94,0.6)] z-10 relative">
           0
         </div>
         
         <!-- Step buttons (Bottom) -->
-        <div class="grid grid-cols-2 gap-2 font-playful text-[10px] z-10 relative">
-          <button id="btnStepDecA" class="bg-slate-800 hover:bg-slate-700 text-rose-300 py-2 rounded-xl border border-rose-500/20 transition-all active:scale-95" title="Mundur 1 Langkah">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2 font-playful text-[9px] md:text-[10px] z-10 relative">
+          <button id="btnStepDecA" class="hidden md:block bg-slate-800 hover:bg-slate-700 text-rose-300 py-2 rounded-xl border border-rose-500/20 transition-all active:scale-95" title="Mundur 1 Langkah">
             MUNDUR
           </button>
-          <button id="btnStepIncA" class="bg-rose-600 hover:bg-rose-500 text-white font-extrabold py-2 rounded-xl shadow-md shadow-rose-900/30 transition-all active:scale-95 animate-pulse" title="Maju 1 Langkah">
-            TENDANG [A]
+          <button id="btnStepIncA" class="bg-rose-600 hover:bg-rose-500 text-white font-extrabold py-1.5 md:py-2 rounded-xl shadow-md shadow-rose-900/30 transition-all active:scale-95 animate-pulse col-span-1" title="Maju 1 Langkah">
+            <span class="hidden md:inline">TENDANG</span> [A]
           </button>
         </div>
       </div>
 
       <!-- Team B Score Panel -->
-      <div class="glass-card-dark rounded-3xl p-4 border-l-4 border-cyan-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
+      <div class="glass-card-dark rounded-2xl md:rounded-3xl p-2 md:p-4 border-l-4 border-cyan-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
         <!-- Accent color corner glow -->
         <div class="absolute -top-10 -left-10 w-24 h-24 bg-cyan-500/20 rounded-full filter blur-xl"></div>
         
         <!-- Team Name (Top) -->
         <div class="text-center z-10 relative">
-          <div class="flex items-center justify-center space-x-1.5">
-            <span id="teamBName" class="text-lg md:text-xl font-playful uppercase tracking-wider text-cyan-200 outline-none border-b border-transparent focus:border-cyan-400 focus:bg-cyan-950/40 px-2 py-0.5 rounded cursor-pointer font-extrabold" contenteditable="true" title="Klik untuk mengubah nama">
+          <div class="flex items-center justify-center space-x-1">
+            <span id="teamBName" class="text-xs md:text-xl font-playful uppercase tracking-wider text-cyan-200 outline-none border-b border-transparent focus:border-cyan-400 focus:bg-cyan-950/40 px-1 py-0.5 rounded cursor-pointer font-extrabold leading-tight" contenteditable="true" title="Klik untuk mengubah nama">
               BIRU
             </span>
-            <svg class="w-3.5 h-3.5 text-cyan-400 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>
-            </svg>
           </div>
-          <div class="text-[10px] text-cyan-400 font-playful tracking-widest uppercase">Gelandang Biru</div>
+          <div class="hidden md:block text-[10px] text-cyan-400 font-playful tracking-widest uppercase">Gelandang Biru</div>
         </div>
 
         <!-- Score Display (Middle) -->
-        <div id="teamBScore" class="text-5xl md:text-6xl font-beachy text-cyan-500 text-center my-2 select-none drop-shadow-[0_4px_12px_rgba(6,182,212,0.6)] z-10 relative">
+        <div id="teamBScore" class="text-3xl md:text-6xl font-beachy text-cyan-500 text-center my-1 md:my-2 select-none drop-shadow-[0_4px_12px_rgba(6,182,212,0.6)] z-10 relative">
           0
         </div>
 
         <!-- Step buttons (Bottom) -->
-        <div class="grid grid-cols-2 gap-2 font-playful text-[10px] z-10 relative">
-          <button id="btnStepDecB" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 py-2 rounded-xl border border-cyan-500/20 transition-all active:scale-95" title="Mundur 1 Langkah">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2 font-playful text-[9px] md:text-[10px] z-10 relative">
+          <button id="btnStepDecB" class="hidden md:block bg-slate-800 hover:bg-slate-700 text-cyan-300 py-2 rounded-xl border border-cyan-500/20 transition-all active:scale-95" title="Mundur 1 Langkah">
             MUNDUR
           </button>
-          <button id="btnStepIncB" class="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold py-2 rounded-xl shadow-md shadow-cyan-900/30 transition-all active:scale-95 animate-pulse" title="Maju 1 Langkah">
-            TENDANG [<span id="btnHotkeyCharB">S</span>]
+          <button id="btnStepIncB" class="bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold py-1.5 md:py-2 rounded-xl shadow-md shadow-cyan-900/30 transition-all active:scale-95 animate-pulse col-span-1" title="Maju 1 Langkah">
+            <span class="hidden md:inline">TENDANG</span> [<span id="btnHotkeyCharB">S</span>]
           </button>
         </div>
       </div>
 
       <!-- Team C Score Panel -->
-      <div class="glass-card-dark rounded-3xl p-4 border-l-4 border-amber-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
+      <div class="glass-card-dark rounded-2xl md:rounded-3xl p-2 md:p-4 border-l-4 border-amber-500 shadow-xl flex flex-col justify-between relative overflow-hidden group w-full">
         <!-- Accent color corner glow -->
         <div class="absolute -top-10 -left-10 w-24 h-24 bg-amber-500/20 rounded-full filter blur-xl"></div>
         
         <!-- Team Name (Top) -->
         <div class="text-center z-10 relative">
-          <div class="flex items-center justify-center space-x-1.5">
-            <span id="teamCName" class="text-lg md:text-xl font-playful uppercase tracking-wider text-amber-200 outline-none border-b border-transparent focus:border-amber-400 focus:bg-amber-950/40 px-2 py-0.5 rounded cursor-pointer font-extrabold" contenteditable="true" title="Klik untuk mengubah nama">
+          <div class="flex items-center justify-center space-x-1">
+            <span id="teamCName" class="text-xs md:text-xl font-playful uppercase tracking-wider text-amber-200 outline-none border-b border-transparent focus:border-amber-400 focus:bg-amber-950/40 px-1 py-0.5 rounded cursor-pointer font-extrabold leading-tight" contenteditable="true" title="Klik untuk mengubah nama">
               KUNING
             </span>
-            <svg class="w-3.5 h-3.5 text-amber-400 opacity-60 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>
-            </svg>
           </div>
-          <div class="text-[10px] text-amber-400 font-playful tracking-widest uppercase">Penyerang Kuning</div>
+          <div class="hidden md:block text-[10px] text-amber-400 font-playful tracking-widest uppercase">Penyerang Kuning</div>
         </div>
 
         <!-- Score Display (Middle) -->
-        <div id="teamCScore" class="text-5xl md:text-6xl font-beachy text-amber-500 text-center my-2 select-none drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] z-10 relative">
+        <div id="teamCScore" class="text-3xl md:text-6xl font-beachy text-amber-500 text-center my-1 md:my-2 select-none drop-shadow-[0_4px_12px_rgba(245,158,11,0.6)] z-10 relative">
           0
         </div>
 
         <!-- Step buttons (Bottom) -->
-        <div class="grid grid-cols-2 gap-2 font-playful text-[10px] z-10 relative">
-          <button id="btnStepDecC" class="bg-slate-800 hover:bg-slate-700 text-amber-300 py-2 rounded-xl border border-amber-500/20 transition-all active:scale-95" title="Mundur 1 Langkah">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2 font-playful text-[9px] md:text-[10px] z-10 relative">
+          <button id="btnStepDecC" class="hidden md:block bg-slate-800 hover:bg-slate-700 text-amber-300 py-2 rounded-xl border border-amber-500/20 transition-all active:scale-95" title="Mundur 1 Langkah">
             MUNDUR
           </button>
-          <button id="btnStepIncC" class="bg-amber-600 hover:bg-amber-500 text-white font-extrabold py-2 rounded-xl shadow-md shadow-amber-900/30 transition-all active:scale-95 animate-pulse" title="Maju 1 Langkah">
-            TENDANG [<span id="btnHotkeyCharC">D</span>]
+          <button id="btnStepIncC" class="bg-amber-600 hover:bg-amber-500 text-white font-extrabold py-1.5 md:py-2 rounded-xl shadow-md shadow-amber-900/30 transition-all active:scale-95 animate-pulse col-span-1" title="Maju 1 Langkah">
+            <span class="hidden md:inline">TENDANG</span> [<span id="btnHotkeyCharC">D</span>]
           </button>
         </div>
       </div>
